@@ -122,3 +122,161 @@ Completed 200 OK in 1366ms (Views: 1364.0ms | ActiveRecord: 0.9ms)
 
 
 Started GET "/assets/scaffolds.self-81ffa5110775a7b3bb5675c27837805c850deda6f306b6baaa1fef02ae9cf1c5.css?body=1" for 127.0.0.1 at 2016-05-17 10:58:28 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateFriends (20160517101707)
+  [1m[35m (379.8ms)[0m  CREATE TABLE `friends` (`id` int(11) auto_increment PRIMARY KEY, `friend_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_friends_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (928.0ms)[0m  [1mALTER TABLE `friends` ADD CONSTRAINT `fk_rails_9cfeeb4593`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101707')[0m
+  [1m[35m (40.9ms)[0m  COMMIT
+Migrating to CreateGroups (20160517101720)
+  [1m[36m (335.6ms)[0m  [1mCREATE TABLE `groups` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_groups_on_user_id`  (`user_id`) ) ENGINE=InnoDB[0m
+  [1m[35m (950.3ms)[0m  ALTER TABLE `groups` ADD CONSTRAINT `fk_rails_5e78cd340a`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (290.1ms)[0m  [1mCREATE UNIQUE INDEX `index_groups_on_name`  ON `groups` (`name`) [0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101720')[0m
+  [1m[35m (89.5ms)[0m  COMMIT
+Migrating to CreateGroupMembers (20160517101728)
+  [1m[36m (467.3ms)[0m  [1mCREATE TABLE `group_members` (`id` int(11) auto_increment PRIMARY KEY, `group_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_group_members_on_group_id`  (`group_id`) ,  INDEX `index_group_members_on_user_id`  (`user_id`) ) ENGINE=InnoDB[0m
+  [1m[35m (1084.2ms)[0m  ALTER TABLE `group_members` ADD CONSTRAINT `fk_rails_e9fdb70ec5`
+FOREIGN KEY (`group_id`)
+  REFERENCES `groups` (`id`)
+
+  [1m[36m (1330.4ms)[0m  [1mALTER TABLE `group_members` ADD CONSTRAINT `fk_rails_bb66f6bca8`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101728')[0m
+  [1m[35m (65.3ms)[0m  COMMIT
+Migrating to CreateOrders (20160517101737)
+  [1m[36m (411.7ms)[0m  [1mCREATE TABLE `orders` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `resturant` varchar(255), `status` tinyint(1), `user_id` int(11), `image` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_orders_on_user_id`  (`user_id`) ) ENGINE=InnoDB[0m
+  [1m[35m (974.3ms)[0m  ALTER TABLE `orders` ADD CONSTRAINT `fk_rails_f868b47f6a`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20160517101737')
+  [1m[36m (43.1ms)[0m  [1mCOMMIT[0m
+Migrating to CreateOrderMembers (20160517101747)
+  [1m[35m (433.8ms)[0m  CREATE TABLE `order_members` (`id` int(11) auto_increment PRIMARY KEY, `order_id` int(11), `user_id` int(11), `status_user` tinyint(1), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_order_members_on_order_id`  (`order_id`) ,  INDEX `index_order_members_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (1252.7ms)[0m  [1mALTER TABLE `order_members` ADD CONSTRAINT `fk_rails_1a84658b86`
+FOREIGN KEY (`order_id`)
+  REFERENCES `orders` (`id`)
+[0m
+  [1m[35m (919.6ms)[0m  ALTER TABLE `order_members` ADD CONSTRAINT `fk_rails_033a0eee6d`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20160517101747')
+  [1m[36m (54.3ms)[0m  [1mCOMMIT[0m
+Migrating to CreateOrderDetails (20160517101756)
+  [1m[35m (544.8ms)[0m  CREATE TABLE `order_details` (`id` int(11) auto_increment PRIMARY KEY, `item` varchar(255), `amount` int(11), `price` float, `comment` text, `order_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_order_details_on_order_id`  (`order_id`) ,  INDEX `index_order_details_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (963.9ms)[0m  [1mALTER TABLE `order_details` ADD CONSTRAINT `fk_rails_e5976611fd`
+FOREIGN KEY (`order_id`)
+  REFERENCES `orders` (`id`)
+[0m
+  [1m[35m (1551.2ms)[0m  ALTER TABLE `order_details` ADD CONSTRAINT `fk_rails_67f58df321`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20160517101756')
+  [1m[36m (43.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateNotifications (20160517101803)
+  [1m[35m (568.9ms)[0m  CREATE TABLE `notifications` (`id` int(11) auto_increment PRIMARY KEY, `user_id` int(11), `content` text, `status` tinyint(1), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_notifications_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (939.1ms)[0m  [1mALTER TABLE `notifications` ADD CONSTRAINT `fk_rails_b080fb4855`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101803')[0m
+  [1m[35m (43.0ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'friends'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `friends`[0m
+  [1m[35m (0.3ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'group_members'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `group_members`[0m
+  [1m[35m (0.3ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'groups'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `groups`[0m
+  [1m[35m (0.3ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'notifications'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `notifications`[0m
+  [1m[35m (0.2ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'order_details'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `order_details`[0m
+  [1m[35m (0.2ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'order_members'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `order_members`[0m
+  [1m[35m (0.2ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'orders'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `orders`[0m
+  [1m[35m (0.3ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'users'
+
+  [1m[36m (0.2ms)[0m  [1mSHOW CREATE TABLE `users`[0m

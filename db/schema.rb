@@ -11,7 +11,83 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517085311) do
+ActiveRecord::Schema.define(version: 20160517101803) do
+
+  create_table "friends", force: :cascade do |t|
+    t.integer  "friend_id",  limit: 4
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "friends", ["user_id"], name: "index_friends_on_user_id", using: :btree
+
+  create_table "group_members", force: :cascade do |t|
+    t.integer  "group_id",   limit: 4
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "group_members", ["group_id"], name: "index_group_members_on_group_id", using: :btree
+  add_index "group_members", ["user_id"], name: "index_group_members_on_user_id", using: :btree
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "groups", ["name"], name: "index_groups_on_name", unique: true, using: :btree
+  add_index "groups", ["user_id"], name: "index_groups_on_user_id", using: :btree
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.text     "content",    limit: 65535
+    t.boolean  "status"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
+
+  create_table "order_details", force: :cascade do |t|
+    t.string   "item",       limit: 255
+    t.integer  "amount",     limit: 4
+    t.float    "price",      limit: 24
+    t.text     "comment",    limit: 65535
+    t.integer  "order_id",   limit: 4
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "order_details", ["order_id"], name: "index_order_details_on_order_id", using: :btree
+  add_index "order_details", ["user_id"], name: "index_order_details_on_user_id", using: :btree
+
+  create_table "order_members", force: :cascade do |t|
+    t.integer  "order_id",    limit: 4
+    t.integer  "user_id",     limit: 4
+    t.boolean  "status_user"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "order_members", ["order_id"], name: "index_order_members_on_order_id", using: :btree
+  add_index "order_members", ["user_id"], name: "index_order_members_on_user_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "resturant",  limit: 255
+    t.boolean  "status"
+    t.integer  "user_id",    limit: 4
+    t.string   "image",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                   limit: 255
@@ -34,4 +110,14 @@ ActiveRecord::Schema.define(version: 20160517085311) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "friends", "users"
+  add_foreign_key "group_members", "groups"
+  add_foreign_key "group_members", "users"
+  add_foreign_key "groups", "users"
+  add_foreign_key "notifications", "users"
+  add_foreign_key "order_details", "orders"
+  add_foreign_key "order_details", "users"
+  add_foreign_key "order_members", "orders"
+  add_foreign_key "order_members", "users"
+  add_foreign_key "orders", "users"
 end

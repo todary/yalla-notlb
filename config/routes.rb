@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :notifications
+  resources :order_details
+  resources :order_members
+  resources :orders
+  resources :group_members
+  resources :groups
+  resources :friends
   devise_for :users
   resources :users
   # The priority is based upon order of creation: first created -> highest priority.
