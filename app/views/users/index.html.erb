@@ -1,17 +1,41 @@
 <style>
-.col-md-5{
-  min-height:250px;
+
+.divcontainer{
+  height:330px;
   margin:10px;
+  background-color:#eee;
+  border-radius:10px;
+  overflow: scroll;
 }
 h3{
   border-bottom:1px solid #ccc ;
 }
+.order{
+  background-color:#FFFFA0;
+  border-radius:2px;
+   border-bottom:1px solid #ccc ;
+   overflow:hidden;
+   padding:5px;
+   padding-left: 10px;
+   margin:2px;
+   margin-top:8px;
+   box-shadow:3px 3px 10px #333;;
+
+}
+  .order:hover
+  {
+    background-color:#EEC450;
+  }
 </style>
 <% if notice %>
 <div class="alert alert-success" id="notice"><%= notice %></div>
 <% end %>
-<div class="col-md-12">
+<div class="col-md-6">
   <button class="btn btn-default btn-sm"><%= link_to 'End & Out', '/users/sign_out', method: :delete %></button>
+  <button class="btn btn-default btn-sm"><%= link_to 'Start Order', '/orders/new', method: :get %></button>
+</div>
+<div class="col-md-6">
+  <button class="btn btn-default btn-sm pull-right"><%= link_to 'Create Group', '/groups/new', method: :get %></button>
 </div>
 
 <!-- <div clas="table-responsive">
@@ -46,20 +70,26 @@ h3{
 <!-- latest orders -->
   <div class="clearfix"></div>
   <div class="clearfix"></div>
-  <div class="col-md-5 table-bordered" >
-    <h3> latest orders</h3>
+  <div class="divcontainer col-md-6 table-bordered" >
+    <h3><i class="fa fa-cart-plus" aria-hidden="true"></i>   latest orders</h3>
 
     <% @orders.each do |order| %>
     <div class="order">
-      <h4><%= order.name %></h4>
-          <p><%= order.resturant %></p>
-          <%= order.status %>
+      <h4>
+        <i class="fa fa-paperclip" aria-hidden="true"></i>  <%= order.name %>
+      </h4>
+      <p>
+        <i class="fa fa-home" aria-hidden="true"></i>  <%= order.resturant %>
+      </p>
+      <p>
+        <i class="fa fa-clock-o" aria-hidden="true"></i>  <%= order.created_at %>
+      </p>
     </div>
     <% end %>
   </div>
   <!-- friend Activity -->
-  <div class="col-md-5 table-bordered">
-    <h3> Friend Activity</h3>
+  <div class="divcontainer col-md-5 table-bordered">
+    <h3><i class="fa fa-flash" aria-hidden="true"></i>    Friend Activity</h3>
   </div>
 
   <div class="clearfix"></div>

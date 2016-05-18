@@ -10,9 +10,9 @@ class UsersController < ApplicationController
       # @orders = Order.find( :all,conditions: { user_id: current_user.id })
       @orders = Order.where(user_id: current_user.id)
 
-  else
-      redirect_to "/users/sign_in"
-  end
+    else
+        redirect_to "/users/sign_in"
+    end
     
 
   end
