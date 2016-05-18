@@ -4,7 +4,12 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    if(current_user)
+      @groups = Group.all
+    else
+      redirect_to "/users/sign_in"
+    end
+    
   end
 
   # GET /groups/1

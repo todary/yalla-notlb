@@ -4,7 +4,12 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    if(current_user)
+       @orders = Order.all
+    else
+      redirect_to "/users/sign_in"
+    end
+
   end
 
   # GET /orders/1

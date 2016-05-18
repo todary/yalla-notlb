@@ -4,7 +4,17 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if(current_user)
+      @users = User.all
+      # @orders = Order.all
+      # @orders = Order.find( :all,conditions: { user_id: current_user.id })
+      @orders = Order.where(user_id: current_user.id)
+
+  else
+      redirect_to "/users/sign_in"
+  end
+    
+
   end
 
   # GET /users/1

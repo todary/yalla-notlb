@@ -1,8 +1,20 @@
-<p id="notice"><%= notice %></p>
+<style>
+.col-md-5{
+  min-height:250px;
+  margin:10px;
+}
+h3{
+  border-bottom:1px solid #ccc ;
+}
+</style>
+<% if notice %>
+<div class="alert alert-success" id="notice"><%= notice %></div>
+<% end %>
+<div class="col-md-12">
+  <button class="btn btn-default btn-sm"><%= link_to 'End & Out', '/users/sign_out', method: :delete %></button>
+</div>
 
-<h1>Listing Users</h1>
-<button class="btn btn-default btn-sm"><%= link_to 'New User', "/users/sign_up" %></button>
-<div clas="table-responsive">
+<!-- <div clas="table-responsive">
   
 
   <table class="table table-hover">
@@ -30,7 +42,26 @@
       <% end %>
     </tbody>
   </table>
-</div>
-<br>
+</div> -->
+<!-- latest orders -->
+  <div class="clearfix"></div>
+  <div class="clearfix"></div>
+  <div class="col-md-5 table-bordered" >
+    <h3> latest orders</h3>
+
+    <% @orders.each do |order| %>
+    <div class="order">
+      <h4><%= order.name %></h4>
+          <p><%= order.resturant %></p>
+          <%= order.status %>
+    </div>
+    <% end %>
+  </div>
+  <!-- friend Activity -->
+  <div class="col-md-5 table-bordered">
+    <h3> Friend Activity</h3>
+  </div>
+
+  <div class="clearfix"></div>
 
 
