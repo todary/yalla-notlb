@@ -9,6 +9,7 @@ class UsersController < ApplicationController
       # @orders = Order.all
       # @orders = Order.find( :all,conditions: { user_id: current_user.id })
       @orders = Order.where(user_id: current_user.id)
+      @notifications = Notification.where(user_id: current_user.id) #it's my notification untile now
 
     else
         redirect_to "/users/sign_in"

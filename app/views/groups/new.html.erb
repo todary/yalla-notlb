@@ -1,5 +1,43 @@
-<h1>New Group</h1>
+<style>
+.add{
+  min-height:250px;
+  margin:10px;
+  background-color:#eee;
+  border-radius:10px;
+}
+h3{
+  border-bottom:1px solid #ccc ;
+}
+</style>
+<div class="add col-md-8 table-bordered" >
+<h3>Add New Group</h3>
 
-<%= render 'form' %>
+<%= form_for(@group) do |f| %>
+  <% if @group.errors.any? %>
+    <div class="alert alert-success" id="notice">
+      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
 
-<%= link_to 'Back', groups_path %>
+      <ul>
+      <% @group.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="form-group">
+  <div class="field">
+    <%= f.label :name %><br>
+    <div class=>
+    <%= f.text_field :name, class:"form-control" %>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit "Create Group" , class: "btn btn-default btn-primary" %> 
+
+  </div>
+ </div>
+<% end %>
+
+
+<%= link_to 'Back', orders_path %>
+</div>

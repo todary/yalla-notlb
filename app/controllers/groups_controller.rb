@@ -15,6 +15,7 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
+    # @members = GroupMember.find(@user.id, :include => :comments)
   end
 
   # GET /groups/new
@@ -29,16 +30,25 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
-    @group = Group.new(group_params)
+    if(current_user)
+      @group = Group.new(group_params)
+      @group.user_id= current_user.id
 
-    respond_to do |format|
-      if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
-        format.json { render :show, status: :created, location: @group }
-      else
-        format.html { render :new }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
+      @notify = Notification.new
+      @notify.user_id= current_user.id
+      @notify.content = 'has created group named  <span>params[:name]</span>'
+
+      respond_to do |format|
+        if @group.save
+          format.html { redirect_to '/group_members/new',group_id =@group.id , notice: 'Group was successfully created, add new members now.' }
+          # format.json { render :show, status: :created, location: @group }
+        else
+          format.html { render :new }
+          format.json { render json: @group.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to "/users/sign_in"
     end
   end
 

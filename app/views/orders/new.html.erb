@@ -24,26 +24,27 @@ h3{
       </ul>
     </div>
   <% end %>
-
-  <div class=" form control field">
+<div class="form-group">
+  <div class=" field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name , class:"form-control"%>
   </div>
   <div class="field">
     <%= f.label :resturant %><br>
-    <%= f.text_field :resturant %>
+    <%= f.text_field :resturant , class:"form-control"%>
   </div>
   <div class="field">
     <%= f.label :status %><br>
-    <%= f.check_box :status %>
+    <%= f.check_box :status , class:"checkbox"%>
   </div>
   <div class="field">
     <%= f.label :image %><br>
-    <%= f.file_field :image %>
+    <%= f.file_field :image , class:"form-control"%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Create Order", class:"btn btn-default btn-primary"  %>
   </div>
+</div>
 <% end %>
 
 <%= link_to 'Back', orders_path %>
