@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   resources :group_members
   resources :groups
   resources :friends
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' , :omniauth_callbacks => "users/omniauth_callbacks" }
+  #devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   # resources :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -14,7 +16,6 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'users#index'
   resources :group_members do resources :users end
-  post 'users/email/', to: 'users#email', as: 'email'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -63,4 +64,6 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  post 'users/email/', to: 'users#email', as: 'email'
+
 end

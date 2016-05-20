@@ -12,7 +12,9 @@ gem "twitter-bootstrap-rails"
 # Use carrierwave to upload image
 gem 'carrierwave'
 gem 'rails', '4.2.6'
-
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-google'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
