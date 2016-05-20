@@ -48,7 +48,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
   database: yalanotlob_production
-  username: yalanotlob
-  password: <%= ENV['YALANOTLOB_DATABASE_PASSWORD'] %>
+  pool: 5
+  timeout: 5000
+  # username: yalanotlob
+  # password: <%= ENV['YALANOTLOB_DATABASE_PASSWORD'] %>
