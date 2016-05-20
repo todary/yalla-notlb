@@ -3,7 +3,7 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
       t.string :name
       t.string :resturant
-      t.boolean :status ,default: 1
+      t.boolean :status ,default: true
       t.references :user, index: true, foreign_key: true
       t.string :image
 

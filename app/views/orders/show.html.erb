@@ -37,15 +37,28 @@ h3{
     <strong>Image:</strong>
     <%= @order.image %>
   </p>
-    <div class="field">
-    <label> And Email friend & Groub Name</label>
-    <br />
-    <input type="hidden" id="path" value="<%= email_path %>"></input>
-    <input type="text"  id="member" class="member" ></input>
-    <button type="button" id="add_member" class="btn btn-primary">Add</button>
-  </div>
 
-  <%= link_to 'Add Friends or group', edit_order_path(@order) %> |
+    <div class="field">
+    <!-- <form action="<%= email_path %>" method="POST" accept-charset="utf-8"> -->
+    
+    <%= form_for(@order_member) do |f| %>
+     <%= f.label :'And Email friend & Groub Name' %><br>
+     <%= f.text_field_tag 'email' %>
+     <%= f.hidden_field_tag 'order_member[order_id]' ,"#{@order.id}"%>
+     <%= f.hidden_field_tag 'order_member[status]' ,"0"%>
+   
+      <%= f.submit "Add" , class:"btn btn-primary" %>
+    <% end %>
+    <!-- <input type="hidden" name="_method" value="patch" class="">
+      <label> And Email friend & Groub Name</label>
+      <br />
+      <input type="hidden" id="path" name="order_id" value="<%= @order.id%>"></input>
+      <input type="text"  id="member" name="email" class="member" ></input>
+       <input type="submit" class="btn btn-primary"></input>
+     -->
+      <!-- <button type="button" id="add_member" class="btn btn-primary">Add</button> -->
+    <!-- </form> -->
+  </div>
   <%= link_to 'Edit', edit_order_path(@order) %> |
   <%= link_to 'Back', orders_path %>
 </div>
@@ -55,9 +68,13 @@ h3{
   <% if @users %>
     <% @users.each do |user| %>
     <div class="order">
-      <h4>
+      <h5 class="col-md-3">
         <i class="fa fa-paperclip" aria-hidden="true"></i>  <%= user.user.name %>
-      </h4>
+      </h5>
+      <h6 class="col-md-2" style="color: red">
+      <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </h6>
+       
     </div>
     <% end %>
     <% else %>
@@ -65,7 +82,7 @@ h3{
   <% end %>
 
 </div>
-
+<!-- 
 <script type="text/javascript">
   
         // console.log('sfdf');
@@ -97,4 +114,4 @@ $(function () {
   });
 
 });
-</script>
+</script> -->
