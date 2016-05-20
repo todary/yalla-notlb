@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
       @order = Order.new(order_params)
       # @order.avatar = params[:file] # Assign a file like this, or
       @order.user_id = current_user.id
-
+      @order.status=1
       respond_to do |format|
         if @order.save
           format.html { redirect_to @order, notice: 'Order was successfully created.' }
@@ -77,6 +77,10 @@ class OrdersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_order
       @order = Order.find(params[:id])
+      @users = OrderMember.where(order_id: params[:id])
+
+      # @users = Order_member.find_by order_id: params[:id]
+      # @users = Order_member.all :conditions => (order_id ? ["order_id != ?", params[:id]] : [])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

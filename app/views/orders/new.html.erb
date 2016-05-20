@@ -10,9 +10,10 @@ h3{
 }
 </style>
 <div class="add col-md-8 table-bordered" >
-<h3>Start New Order</h3>
+<h3>Start New Order</h3> 
 
 <%= form_for(@order) do |f| %>
+
   <% if @order.errors.any? %>
     <div class="alert alert-success" id="notice">
       <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
@@ -24,28 +25,25 @@ h3{
       </ul>
     </div>
   <% end %>
-<div class="form-group">
-  <div class=" field">
+
+  <div class=" form control field">
     <%= f.label :name %><br>
-    <%= f.text_field :name , class:"form-control"%>
+    <%= f.text_field :name %>
   </div>
   <div class="field">
     <%= f.label :resturant %><br>
-    <%= f.text_field :resturant , class:"form-control"%>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.check_box :status , class:"checkbox"%>
+    <%= f.text_field :resturant %>
   </div>
   <div class="field">
     <%= f.label :image %><br>
-    <%= f.file_field :image , class:"form-control"%>
+    <%= f.file_field :image %>
   </div>
   <div class="actions">
-    <%= f.submit "Create Order", class:"btn btn-default btn-primary"  %>
+    <%= f.submit %>
   </div>
-</div>
 <% end %>
 
 <%= link_to 'Back', orders_path %>
 </div>
+
+

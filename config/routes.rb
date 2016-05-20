@@ -64,4 +64,6 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  post 'users/email/', to: 'users#email', as: 'email'
+
 end
