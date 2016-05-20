@@ -26437,3 +26437,1067 @@ Processing by UsersController#index as HTML
   [1m[35mOrder Load (0.1ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
   Rendered users/index.html.erb within layouts/application (0.9ms)
 Completed 200 OK in 67ms (Views: 65.4ms | ActiveRecord: 0.4ms)
+  [1m[36m (202.7ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (362.9ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations`  ON `schema_migrations` (`version`) 
+  [1m[36mActiveRecord::SchemaMigration Load (12.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20160517085112)
+  [1m[35m (105.8ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `email` varchar(255), `password` varchar(255), `image` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (244.9ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36mSQL (13.8ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517085112')[0m
+  [1m[35m (49.1ms)[0m  COMMIT
+Migrating to AddDeviseToUsers (20160517085311)
+  [1m[36m (477.7ms)[0m  [1mALTER TABLE `users` ADD `encrypted_password` varchar(255) DEFAULT '' NOT NULL[0m
+  [1m[35m (189.8ms)[0m  ALTER TABLE `users` ADD `reset_password_token` varchar(255)
+  [1m[36m (223.1ms)[0m  [1mALTER TABLE `users` ADD `reset_password_sent_at` datetime[0m
+  [1m[35m (212.1ms)[0m  ALTER TABLE `users` ADD `remember_created_at` datetime
+  [1m[36m (213.7ms)[0m  [1mALTER TABLE `users` ADD `sign_in_count` int(11) DEFAULT 0 NOT NULL[0m
+  [1m[35m (307.1ms)[0m  ALTER TABLE `users` ADD `current_sign_in_at` datetime
+  [1m[36m (194.8ms)[0m  [1mALTER TABLE `users` ADD `last_sign_in_at` datetime[0m
+  [1m[35m (367.8ms)[0m  ALTER TABLE `users` ADD `current_sign_in_ip` varchar(255)
+  [1m[36m (300.8ms)[0m  [1mALTER TABLE `users` ADD `last_sign_in_ip` varchar(255)[0m
+  [1m[35m (131.7ms)[0m  CREATE UNIQUE INDEX `index_users_on_reset_password_token`  ON `users` (`reset_password_token`) 
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20160517085311')
+  [1m[36m (41.5ms)[0m  [1mCOMMIT[0m
+Migrating to CreateFriends (20160517101707)
+  [1m[35m (80.8ms)[0m  CREATE TABLE `friends` (`id` int(11) auto_increment PRIMARY KEY, `friend_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_friends_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (300.1ms)[0m  [1mALTER TABLE `friends` ADD CONSTRAINT `fk_rails_9cfeeb4593`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mSQL (15.8ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101707')[0m
+  [1m[35m (36.3ms)[0m  COMMIT
+Migrating to CreateGroups (20160517101720)
+  [1m[36m (198.8ms)[0m  [1mCREATE TABLE `groups` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_groups_on_user_id`  (`user_id`) ) ENGINE=InnoDB[0m
+  [1m[35m (306.8ms)[0m  ALTER TABLE `groups` ADD CONSTRAINT `fk_rails_5e78cd340a`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (160.1ms)[0m  [1mCREATE UNIQUE INDEX `index_groups_on_name`  ON `groups` (`name`) [0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36mSQL (18.8ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101720')[0m
+  [1m[35m (44.4ms)[0m  COMMIT
+Migrating to CreateGroupMembers (20160517101728)
+  [1m[36m (353.4ms)[0m  [1mCREATE TABLE `group_members` (`id` int(11) auto_increment PRIMARY KEY, `group_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_group_members_on_group_id`  (`group_id`) ,  INDEX `index_group_members_on_user_id`  (`user_id`) ) ENGINE=InnoDB[0m
+  [1m[35m (610.0ms)[0m  ALTER TABLE `group_members` ADD CONSTRAINT `fk_rails_e9fdb70ec5`
+FOREIGN KEY (`group_id`)
+  REFERENCES `groups` (`id`)
+
+  [1m[36m (627.1ms)[0m  [1mALTER TABLE `group_members` ADD CONSTRAINT `fk_rails_bb66f6bca8`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (14.2ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101728')[0m
+  [1m[35m (70.8ms)[0m  COMMIT
+Migrating to CreateOrders (20160517101737)
+  [1m[36m (235.4ms)[0m  [1mCREATE TABLE `orders` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `resturant` varchar(255), `status` tinyint(1), `user_id` int(11), `image` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_orders_on_user_id`  (`user_id`) ) ENGINE=InnoDB[0m
+  [1m[35m (392.0ms)[0m  ALTER TABLE `orders` ADD CONSTRAINT `fk_rails_f868b47f6a`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (23.6ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20160517101737')
+  [1m[36m (81.2ms)[0m  [1mCOMMIT[0m
+Migrating to CreateOrderMembers (20160517101747)
+  [1m[35m (233.8ms)[0m  CREATE TABLE `order_members` (`id` int(11) auto_increment PRIMARY KEY, `order_id` int(11), `user_id` int(11), `status_user` tinyint(1), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_order_members_on_order_id`  (`order_id`) ,  INDEX `index_order_members_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (484.5ms)[0m  [1mALTER TABLE `order_members` ADD CONSTRAINT `fk_rails_1a84658b86`
+FOREIGN KEY (`order_id`)
+  REFERENCES `orders` (`id`)
+[0m
+  [1m[35m (340.4ms)[0m  ALTER TABLE `order_members` ADD CONSTRAINT `fk_rails_033a0eee6d`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (1.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (11.0ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20160517101747')
+  [1m[36m (40.3ms)[0m  [1mCOMMIT[0m
+Migrating to CreateOrderDetails (20160517101756)
+  [1m[35m (118.0ms)[0m  CREATE TABLE `order_details` (`id` int(11) auto_increment PRIMARY KEY, `item` varchar(255), `amount` int(11), `price` float, `comment` text, `order_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_order_details_on_order_id`  (`order_id`) ,  INDEX `index_order_details_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (233.1ms)[0m  [1mALTER TABLE `order_details` ADD CONSTRAINT `fk_rails_e5976611fd`
+FOREIGN KEY (`order_id`)
+  REFERENCES `orders` (`id`)
+[0m
+  [1m[35m (289.3ms)[0m  ALTER TABLE `order_details` ADD CONSTRAINT `fk_rails_67f58df321`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20160517101756')
+  [1m[36m (38.2ms)[0m  [1mCOMMIT[0m
+Migrating to CreateNotifications (20160517101803)
+  [1m[35m (91.3ms)[0m  CREATE TABLE `notifications` (`id` int(11) auto_increment PRIMARY KEY, `user_id` int(11), `content` text, `status` tinyint(1), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL,  INDEX `index_notifications_on_user_id`  (`user_id`) ) ENGINE=InnoDB
+  [1m[36m (266.0ms)[0m  [1mALTER TABLE `notifications` ADD CONSTRAINT `fk_rails_b080fb4855`
+FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
+[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20160517101803')[0m
+  [1m[35m (39.2ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (14.2ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'friends'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `friends`[0m
+  [1m[35m (0.6ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'group_members'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `group_members`[0m
+  [1m[35m (0.7ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'groups'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `groups`[0m
+  [1m[35m (0.6ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'notifications'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `notifications`[0m
+  [1m[35m (0.5ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'order_details'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `order_details`[0m
+  [1m[35m (0.5ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'order_members'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `order_members`[0m
+  [1m[35m (0.6ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'orders'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `orders`[0m
+  [1m[35m (0.5ms)[0m  SELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'yalanotlob_development'
+  AND fk.table_name = 'users'
+
+  [1m[36m (0.4ms)[0m  [1mSHOW CREATE TABLE `users`[0m
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:12:07 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by UsersController#index as HTML
+Redirected to http://localhost:3000/users/sign_in
+Completed 302 Found in 55ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:12:07 +0200
+Processing by Devise::SessionsController#new as HTML
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/shared/_links.html.erb (2.1ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/sessions/new.html.erb within layouts/application (403.3ms)
+Completed 200 OK in 4858ms (Views: 4825.0ms | ActiveRecord: 16.8ms)
+
+
+Started GET "/assets/twitter-bootstrap-static/bootstrap.self-603f330c29af013305325569c8c75d03d688963abd8cde4fffec17b5ce417bfb.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/bootstrap_and_overrides.self-2cb3834583dfbaf0a39c7139750bf963e05d79cbe811126997e013400be5d8dc.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter-bootstrap-static/fontawesome.self-2fe4f8a61d73606fbcb036b41f380591906a4da65a9eb5ec0a210fe6980b2ca7.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/friends.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/groups.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/group_members.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/notifications.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/scaffolds.self-32d30e9fc329598648a5fe60c701b73387912f6c9ae3f55d1a0fdf5e96888f33.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/orders.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/order_members.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/order_details.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-72f95ffa1071297725a9ac91989693d56d1abf23f441a47455073b0da2857a5b.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/application.self-27e911da1d6f5c3c965ae446586a3741e37ac8596c432522595652dd52594803.css?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-09ff30b1e8a93d1f7728b9855f55d9c9d8d5734c8861e0d8139994e50944572a.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-a29e91e8cd3ddaba9bbc466901d53ec2127e9256b9b941905d525a3a716bd1a5.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-9314126777c6be5443e37ea7f7967d7914d72b3e60449ba50edc967446373059.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-122235057fbd4c6c7da377d59dc58f47b44cb1088a2e38e6ee6ce9d8ac29a26a.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-a155b9d4b2f978905f0326c0f6635e1134fe91c6bfbfcbad079fa24a9fef2b0e.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-11cf547be953f25f511cec668f6690473fd97b2f65502e4032f4030999a3f0c3.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-77d8e3a2499c1104ef146396a68b82469ee2bdb365199b874694698d10405e9a.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/button.self-a6cb16785434acb365ae426aef9f1fce05ed553cae7a965e4471c3da71509175.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-7dc8bfbc2fbfabd2bad62c58ff8ffeaf8f20fb87c7ca6cd35f06d4dc19632587.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-57eb8422043cf0a85b7a9dc6843916eb0a3e35b419c7798a5eb254b918997631.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-d2b642d8fbfc1d7041e2edefd66683ada567a980789dcd6f94fddda0b33408b5.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:13 +0200
+
+
+Started GET "/assets/friends.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/bootstrap.self-5afe7e91ef3675e2be97b8d060a7f3755d6dbc615b76df476df55143da70679f.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/group_members.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/groups.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/notifications.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/order_details.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/orders.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/order_members.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/application.self-c8e78416a1fa2eb888c48b7933e866d8839e764b02429247e6934c72ab665557.js?body=1" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/assets/fontawesome-webfont-a7c7e4930090e038a280fd61d88f0dc03dad4aeaedbd8c9be3dd9aa4c3b6f8d1.woff" for 127.0.0.1 at 2016-05-19 19:12:14 +0200
+
+
+Started GET "/images/favicon.ico" for 127.0.0.1 at 2016-05-19 19:12:15 +0200
+
+ActionController::RoutingError (No route matches [GET] "/images/favicon.ico"):
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_route.html.erb (7.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_table.html.erb (20.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (83.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (24.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (46.8ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:12:55 +0200
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"p4S0mFxOocgA/aIRGFS4ljOzRZMI7lJBpSA6IVSTauG5NX7kSRf3U0kYdbvlwC5TOjDA5vMFmIJ6Hfmi9u4Lgg=="}
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/shared/_links.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/sessions/new.html.erb within layouts/application (4.5ms)
+Completed 200 OK in 141ms (Views: 139.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2016-05-19 19:12:59 +0200
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/shared/_links.html.erb (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/registrations/new.html.erb within layouts/application (6.3ms)
+Completed 200 OK in 109ms (Views: 107.5ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2016-05-19 19:13:15 +0200
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"/5npilg+72gZlMOz6k/nikmFylkTYZ2lQJkvky1SbGPhKCP2TWe581BxFBkX23FPQAZPLOiKV2afpOwQjy8NAA==", "user"=>{"email"=>"abeer@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (46.6ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`email` = BINARY 'abeer@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (32.8ms)[0m  INSERT INTO `users` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('abeer@gmail.com', '$2a$11$a1ztN7qKHH5R6NvUfkFGz.muFe0bWpsNO7iI/CX5U5JRQEHA9Rc7O', '2016-05-19 17:13:16', '2016-05-19 17:13:16')
+  [1m[36m (808.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (44.6ms)[0m  [1mUPDATE `users` SET `last_sign_in_at` = '2016-05-19 17:13:17', `current_sign_in_at` = '2016-05-19 17:13:17', `last_sign_in_ip` = '127.0.0.1', `current_sign_in_ip` = '127.0.0.1', `sign_in_count` = 1, `updated_at` = '2016-05-19 17:13:17' WHERE `users`.`id` = 1[0m
+  [1m[35m (37.1ms)[0m  COMMIT
+Redirected to http://localhost:3000/
+Completed 302 Found in 1797ms (ActiveRecord: 970.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:13:17 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.4ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (2.6ms)
+Completed 500 Internal Server Error in 156ms (ActiveRecord: 2.1ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (24.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (15.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (29.8ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:13:58 +0200
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"pHFtew3cec7wm68AzSrtjDF4mHNJ96z0EJipD0xkiAG6wKcHGIUvVbl+eKowvntJOPsdBrIcZjfPpWqM7hnpYg=="}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+Redirected to http://localhost:3000/
+Filter chain halted as :require_no_authentication rendered or redirected
+Completed 302 Found in 4ms (ActiveRecord: 0.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:13:58 +0200
+Processing by UsersController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1
+  [1m[36mOrder Load (0.2ms)[0m  [1mSELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1[0m
+  Rendered users/index.html.erb within layouts/application (1.8ms)
+Completed 500 Internal Server Error in 107ms (ActiveRecord: 0.4ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (34.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (18.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (37.7ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:14:06 +0200
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"pHFtew3cec7wm68AzSrtjDF4mHNJ96z0EJipD0xkiAG6wKcHGIUvVbl+eKowvntJOPsdBrIcZjfPpWqM7hnpYg=="}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1
+Redirected to http://localhost:3000/
+Filter chain halted as :require_no_authentication rendered or redirected
+Completed 302 Found in 3ms (ActiveRecord: 0.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:14:06 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.2ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (0.9ms)
+Completed 500 Internal Server Error in 78ms (ActiveRecord: 0.4ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (14.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (31.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (14.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (28.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:14:15 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.2ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (1.2ms)
+Completed 500 Internal Server Error in 85ms (ActiveRecord: 0.3ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (6.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (22.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (15.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (29.6ms)
+
+
+Started GET "/users" for 127.0.0.1 at 2016-05-19 19:14:26 +0200
+
+ActionController::RoutingError (No route matches [GET] "/users"):
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_route.html.erb (5.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (38.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (21.1ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (39.7ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:15:34 +0200
+Processing by Devise::SessionsController#new as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+Redirected to http://localhost:3000/
+Filter chain halted as :require_no_authentication rendered or redirected
+Completed 302 Found in 4ms (ActiveRecord: 0.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:15:34 +0200
+Processing by UsersController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1
+  [1m[36mOrder Load (0.9ms)[0m  [1mSELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1[0m
+  Rendered users/index.html.erb within layouts/application (1.6ms)
+Completed 500 Internal Server Error in 184ms (ActiveRecord: 1.0ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (12.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (33.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (19.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (35.6ms)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2016-05-19 19:15:49 +0200
+
+ActionController::RoutingError (No route matches [GET] "/users/sign_out"):
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_route.html.erb (5.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_table.html.erb (2.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (45.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (17.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (32.6ms)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2016-05-19 19:16:27 +0200
+
+ActionController::RoutingError (No route matches [GET] "/users/sign_out"):
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_route.html.erb (6.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_table.html.erb (2.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (65.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (18.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (34.3ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:16:35 +0200
+Processing by Devise::SessionsController#new as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1
+Redirected to http://localhost:3000/
+Filter chain halted as :require_no_authentication rendered or redirected
+Completed 302 Found in 4ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:16:35 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.2ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (1.2ms)
+Completed 500 Internal Server Error in 101ms (ActiveRecord: 0.4ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (6.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (22.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (14.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (28.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:16:41 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.5ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (2.0ms)
+Completed 500 Internal Server Error in 108ms (ActiveRecord: 0.7ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (6.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (25.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (17.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (32.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:44:39 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.3ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (1.4ms)
+Completed 500 Internal Server Error in 785ms (ActiveRecord: 0.6ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (16.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (6.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (56.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (21.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (42.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:47:48 +0200
+Processing by UsersController#index as HTML
+Redirected to http://localhost:3000/users/sign_in
+Completed 302 Found in 7ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:47:49 +0200
+Processing by Devise::SessionsController#new as HTML
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/shared/_links.html.erb (0.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/devise-4.1.0/app/views/devise/sessions/new.html.erb within layouts/application (8.2ms)
+Completed 200 OK in 789ms (Views: 787.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/twitter-bootstrap-static/bootstrap.self-603f330c29af013305325569c8c75d03d688963abd8cde4fffec17b5ce417bfb.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/twitter-bootstrap-static/fontawesome.self-2fe4f8a61d73606fbcb036b41f380591906a4da65a9eb5ec0a210fe6980b2ca7.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/bootstrap_and_overrides.self-2cb3834583dfbaf0a39c7139750bf963e05d79cbe811126997e013400be5d8dc.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/friends.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/group_members.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/groups.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/notifications.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/order_details.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/order_members.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/orders.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/scaffolds.self-32d30e9fc329598648a5fe60c701b73387912f6c9ae3f55d1a0fdf5e96888f33.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:51 +0200
+
+
+Started GET "/assets/application.self-27e911da1d6f5c3c965ae446586a3741e37ac8596c432522595652dd52594803.css?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/alert.self-a29e91e8cd3ddaba9bbc466901d53ec2127e9256b9b941905d525a3a716bd1a5.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/modal.self-72f95ffa1071297725a9ac91989693d56d1abf23f441a47455073b0da2857a5b.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/transition.self-09ff30b1e8a93d1f7728b9855f55d9c9d8d5734c8861e0d8139994e50944572a.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/dropdown.self-9314126777c6be5443e37ea7f7967d7914d72b3e60449ba50edc967446373059.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/scrollspy.self-a155b9d4b2f978905f0326c0f6635e1134fe91c6bfbfcbad079fa24a9fef2b0e.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/tab.self-122235057fbd4c6c7da377d59dc58f47b44cb1088a2e38e6ee6ce9d8ac29a26a.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/popover.self-77d8e3a2499c1104ef146396a68b82469ee2bdb365199b874694698d10405e9a.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/tooltip.self-11cf547be953f25f511cec668f6690473fd97b2f65502e4032f4030999a3f0c3.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/button.self-a6cb16785434acb365ae426aef9f1fce05ed553cae7a965e4471c3da71509175.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/collapse.self-7dc8bfbc2fbfabd2bad62c58ff8ffeaf8f20fb87c7ca6cd35f06d4dc19632587.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/carousel.self-57eb8422043cf0a85b7a9dc6843916eb0a3e35b419c7798a5eb254b918997631.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap/affix.self-d2b642d8fbfc1d7041e2edefd66683ada567a980789dcd6f94fddda0b33408b5.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/twitter/bootstrap.self-fbfa5ad7d9aa0afe439ec4ff3883acc4cb92b62cb67c40d674320c9aa1d4642d.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/bootstrap.self-5afe7e91ef3675e2be97b8d060a7f3755d6dbc615b76df476df55143da70679f.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/friends.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/group_members.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/groups.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/notifications.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/orders.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/order_details.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/order_members.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/application.self-c8e78416a1fa2eb888c48b7933e866d8839e764b02429247e6934c72ab665557.js?body=1" for 127.0.0.1 at 2016-05-19 19:47:52 +0200
+
+
+Started GET "/assets/fontawesome-webfont-a7c7e4930090e038a280fd61d88f0dc03dad4aeaedbd8c9be3dd9aa4c3b6f8d1.woff" for 127.0.0.1 at 2016-05-19 19:47:53 +0200
+
+
+Started GET "/images/favicon.ico" for 127.0.0.1 at 2016-05-19 19:47:54 +0200
+
+ActionController::RoutingError (No route matches [GET] "/images/favicon.ico"):
+  actionpack (4.2.6) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `catch'
+  web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.6) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.6) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.6) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.6) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.6) lib/action_dispatch/middleware/static.rb:120:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.6) lib/rails/engine.rb:518:in `call'
+  railties (4.2.6) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /home/abeer/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_route.html.erb (7.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.9ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.8ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (113.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (22.6ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (42.7ms)
+
+
+Started POST "/users/sign_in" for 127.0.0.1 at 2016-05-19 19:48:05 +0200
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Y0j2gdxtY7KVageaZXASdxDr77iNUcOAdO9z2ReaakazqMjAdNeanjZwaE0fCttEAsJFCVA1UTeDKHvByoHTCQ==", "user"=>{"email"=>"abeer@gmail.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (270.6ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'abeer@gmail.com'  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (32.2ms)[0m  [1mUPDATE `users` SET `current_sign_in_at` = '2016-05-19 17:48:06', `sign_in_count` = 2, `updated_at` = '2016-05-19 17:48:06' WHERE `users`.`id` = 1[0m
+  [1m[35m (175.6ms)[0m  COMMIT
+Redirected to http://localhost:3000/
+Completed 302 Found in 812ms (ActiveRecord: 478.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:48:06 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.2ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (1.3ms)
+Completed 500 Internal Server Error in 155ms (ActiveRecord: 0.5ms)
+
+ActionView::Template::Error (no implicit conversion of nil into String):
+    52:           </ul>
+    53:           <ul class="nav navbar-nav pull-right">
+    54:           <% if current_user %>
+    55:             <li><%= link_to "Sign Out :"+current_user.name, '/users/sign_out', method: :delete %></li>
+    56:           <% else %>
+    57:           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
+    58:           <% end %></li>
+  app/views/layouts/application.html.erb:55:in `+'
+  app/views/layouts/application.html.erb:55:in `_app_views_layouts_application_html_erb__1173086025907585802_33514040'
+
+
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (13.0ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.6/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (40.2ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/console.js.erb within layouts/javascript (16.7ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/abeer/.rvm/gems/ruby-2.3.0/gems/web-console-2.3.0/lib/web_console/templates/index.html.erb (33.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:50:26 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.2ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (1.5ms)
+Completed 200 OK in 90ms (Views: 86.1ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-19 19:51:07 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35mOrder Load (0.3ms)[0m  SELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1
+  Rendered users/index.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 127ms (Views: 122.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-05-20 00:17:53 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (14.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by UsersController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1  ORDER BY `users`.`id` ASC LIMIT 1
+  [1m[36mOrder Load (0.4ms)[0m  [1mSELECT `orders`.* FROM `orders` WHERE `orders`.`user_id` = 1[0m
+  Rendered users/index.html.erb within layouts/application (4.0ms)
+Completed 200 OK in 935ms (Views: 707.7ms | ActiveRecord: 114.9ms)
