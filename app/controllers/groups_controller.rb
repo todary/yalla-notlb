@@ -21,6 +21,7 @@ class GroupsController < ApplicationController
   # GET /groups/new
   def new
     @group = Group.new
+    @users = User.all :conditions => (current_user ? ["id != ?", current_user.id] : [])
   end
 
   # GET /groups/1/edit

@@ -24,11 +24,14 @@ class GroupMembersController < ApplicationController
   # POST /group_members
   # POST /group_members.json
   def create
-    @group_member = GroupMember.new(group_member_params)
-
+    # where("id !=?",current_user.id)
+    debug(params)
+    @group_member = GroupMember.new
+    @group_member.group_id = params[:group_id]
+    @group_member.user_id = params[:user_id]
     respond_to do |format|
       if @group_member.save
-        format.html { redirect_to @group_member, notice: 'Group member was successfully created.' }
+        format.html { redirect_to @group_member, notice: 'Group member was successfully add.' }
         format.json { render :show, status: :created, location: @group_member }
       else
         format.html { render :new }
