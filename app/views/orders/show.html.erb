@@ -1,29 +1,100 @@
-<p id="notice"><%= notice %></p>
+<style>
+.add{
+  min-height:250px;
+  margin:10px;
+  background-color:#eee;
+  border-radius:10px;
+}
+h3{
+  border-bottom:1px solid #ccc ;
+}
+</style>
 
-<p>
-  <strong>Name:</strong>
-  <%= @order.name %>
-</p>
+<div class="add col-md-5 table-bordered" >
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Resturant:</strong>
-  <%= @order.resturant %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @order.name %>
+  </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @order.status %>
-</p>
+  <p>
+    <strong>Resturant:</strong>
+    <%= @order.resturant %>
+  </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @order.user %>
-</p>
+  <p>
+    <strong>Status:</strong>
+    <%= @order.status %>
+  </p>
 
-<p>
-  <strong>Image:</strong>
-  <%= @order.image %>
-</p>
+  <p>
+    <strong>User:</strong>
+    <%= @order.user.name %>
+  </p>
 
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
+  <p>
+    <strong>Image:</strong>
+    <%= @order.image %>
+  </p>
+    <div class="field">
+    <label> And Email friend & Groub Name</label>
+    <br />
+    <input type="hidden" id="path" value="<%= email_path %>"></input>
+    <input type="text"  id="member" class="member" ></input>
+    <button type="button" id="add_member" class="btn btn-primary">Add</button>
+  </div>
+
+  <%= link_to 'Add Friends or group', edit_order_path(@order) %> |
+  <%= link_to 'Edit', edit_order_path(@order) %> |
+  <%= link_to 'Back', orders_path %>
+</div>
+
+<div class="add col-md-5 table-bordered" >
+
+  <% if @users %>
+    <% @users.each do |user| %>
+    <div class="order">
+      <h4>
+        <i class="fa fa-paperclip" aria-hidden="true"></i>  <%= user.user.name %>
+      </h4>
+    </div>
+    <% end %>
+    <% else %>
+    <h1>empty</h1>
+  <% end %>
+
+</div>
+
+<script type="text/javascript">
+  
+        // console.log('sfdf');
+$(function () {
+ $('body').on('click', '#add_member', function ()
+  {
+      var member=$('#member').val();
+      var path=$('#path').val();
+      console.log(path);
+      // row_id = $(this).data('rowid');
+       var user = {}
+       user.email=member
+      console.log(user);
+
+        $.ajax
+                ({
+                    // url: 'users/email/:abanob.todary@gmail.com',
+                    // url:'http://localhost:3000/users/1',
+                    url:path,
+                    type: 'POST',
+                    data: user,
+                    success: function (data)
+                    {
+                        console.log(data);
+                    }
+
+                });
+
+  });
+
+});
+</script>
