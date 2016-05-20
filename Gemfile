@@ -10,14 +10,6 @@ gem "twitter-bootstrap-rails"
 # Use carrierwave to upload image
 gem 'carrierwave'
 gem 'rails', '4.2.6'
-# Use mysql as the database for Active Record
-group :production do
-  gem 'pg'
-end
-
-group :development, :test do
-  gem 'mysql2', '>= 0.3.13', '< 0.5'
-end
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -59,3 +51,11 @@ group :development do
   gem 'spring'
 end
 
+# Use mysql as the database for Active Record
+group :development, :test do
+  gem 'mysql2', '>= 0.3.13', '< 0.5'
+end
+
+group :production do
+  gem 'pg'
+end
