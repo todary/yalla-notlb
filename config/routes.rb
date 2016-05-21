@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   resources :group_members
   resources :groups
   resources :friends
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' , :omniauth_callbacks => "users/omniauth_callbacks" }
+  #devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   # resources :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -62,4 +64,6 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  post 'member/email/', to: 'order_members#add_member', as: 'email'
+    # post 'users/email/' => 'order_members#add_member' , as: 'email'
 end

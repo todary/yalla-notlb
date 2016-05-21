@@ -1,14 +1,123 @@
+<style>
+
+.divcontainer{
+  height:330px;
+  margin:10px;
+  width:80%;
+  background-color:#eee;
+  border-radius:10px;
+  overflow: scroll;
+  padding: 10px;
+  padding-top:5px;
+
+}
+h3{
+  border-bottom:1px solid #ccc ;
+}
+.order{
+  background-color:#fff;
+  border-radius:2px;
+  width:3 0%;
+   border-bottom:1px solid #ccc ;
+   overflow:hidden;
+   padding:5px;
+   padding-left: 10px;
+   margin:2px;
+   margin-top:8px;
+   box-shadow:3px 3px 10px #333;
+
+}
+  .order:hover
+  {
+    background-color:#ccc;
+  }
+  .buttons > a , .link > i
+  {
+    margin-left:5px;
+    font-size:16px;
+    margin-top:20px;
+    color:#333;
+  }
+   .link > i
+  {
+
+    margin-top:0px;
+  }
+  .buttons > a:hover, .link > i:hover
+  {
+    background-color:#eee;
+    color:black;
+  }
+  .red
+  {
+    color:red;
+  }
+  .blue
+  {
+    color:blue;
+  }
+  .green
+  {
+    color:green;
+  }
+</style>
 <p id="notice"><%= notice %></p>
+<%= link_to 'New Group', new_group_path,  class:"pull-right btn btn-sm btn-default"%>
+<h1>My Groups</h1>
+      <div class="divcontainer">
+        <div class="buttons col-md-6 pull-right">
+            
+            <%= link_to @group,class:"pull-right green", method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-close"></i><% end %>
+            <%= link_to edit_group_path(@group),class:"pull-right" do %><i class="fa fa-pencil-square-o"></i><% end %>
+            
+          <!--   <%= link_to new_group_member_path,class:"pull-right"  do %><i class="fa fa-user-plus"></i> <% end %> -->
+          <!-- Large modal -->
+          <a class="link pull-right" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+          </a>
 
-<p>
-  <strong>Name:</strong>
-  <%= @group.name %>
-</p>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+         <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="exampleModalLabel">Add Users to Group</h4>
+            </div>
+            <div class="modal-body">
+              <%= form_for([GroupMember.new]) do |f| %>
+                <%= hidden_field_tag :group_id, @group.id %>
+               <div class="field">
+                  <%= f.label :user_id %><br />
+                   <%= f.collection_select(:user_id,User.where("id !=?",current_user.id),:id,:name, { :prompt => "Select Users"},class: "form-control")  %>
 
-<p>
-  <strong>User:</strong>
-  <%= @group.user %>
-</p>
+                </div>
 
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+              <div class="actions">
+                
+              </div>
+            
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <%= f.submit "Add Users" , class: "btn btn-default btn-primary" %> 
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+            
+            
+          </div>
+        <h3><%= @group.name %>
+          
+        </h3>
+          <% @group.group_members.each  do |groupmember| %>
+            <div class="order">
+            <p><%= groupmember.user.name.inspect %>  
+            <%= link_to 'X', groupmember, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-sm btn-danger pull-right"%></p>
+            </div>
+          <% end %>
+      </div>
+        
+      </tr>

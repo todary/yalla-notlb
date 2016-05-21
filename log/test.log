@@ -1,0 +1,12 @@
+  [1m[36m (500.7ms)[0m  [1mDROP DATABASE IF EXISTS `yalanotlob_test`[0m
+  [1m[35m (0.4ms)[0m  CREATE DATABASE `yalanotlob_test` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`
+  [1m[36m (614.6ms)[0m  [1mCREATE TABLE `friends` (`id` int(11) auto_increment PRIMARY KEY, `friend_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (327.3ms)[0m  CREATE  INDEX `index_friends_on_user_id` USING btree ON `friends` (`user_id`) 
+  [1m[36m (173.8ms)[0m  [1mCREATE TABLE `group_members` (`id` int(11) auto_increment PRIMARY KEY, `group_id` int(11), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (345.8ms)[0m  CREATE  INDEX `index_group_members_on_group_id` USING btree ON `group_members` (`group_id`) 
+  [1m[36m (299.4ms)[0m  [1mCREATE  INDEX `index_group_members_on_user_id` USING btree ON `group_members` (`user_id`) [0m
+  [1m[35m (523.8ms)[0m  CREATE TABLE `groups` (`id` int(11) auto_increment PRIMARY KEY, `name` varchar(255), `user_id` int(11), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (355.3ms)[0m  [1mCREATE UNIQUE INDEX `index_groups_on_name` USING btree ON `groups` (`name`) [0m
+  [1m[35m (232.4ms)[0m  CREATE  INDEX `index_groups_on_user_id` USING btree ON `groups` (`user_id`) 
+  [1m[36m (165.6ms)[0m  [1mCREATE TABLE `notifications` (`id` int(11) auto_increment PRIMARY KEY, `user_id` int(11), `content` text, `status` tinyint(1), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (91.2ms)[0m  CREATE  INDEX `index_notifications_on_user_id` USING btree ON `notifications` (`user_id`) 

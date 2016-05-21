@@ -13,6 +13,7 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  #config.mailer_sender = 'engenas21@gmail.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -25,6 +26,7 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
+
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -265,4 +267,12 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+
+require "omniauth-facebook"
+#config.omniauth :facebook, "1710992119148922", "4b8ca4332a944cc768d08ca7a705f868"
+config.omniauth :facebook, "1619847678333025", "162807ab2f329563f918ca6fecf48777"
+
+require "omniauth-google-oauth2"
+#config.omniauth :google_oauth2, "865790076923-r50mro6buvl7uj7e3rcvh1kk1cfsmth4.apps.googleusercontent.com", "EEq2IBjDf-RUrH74ndTd0eK4", { access_type: "offline", approval_prompt: "" }
+config.omniauth :google_oauth2, "865790076923-0ruhc83ci4roco7h2k6c57usoi57ef8u.apps.googleusercontent.com", "ASgish-sWAb8sbDGm7nhBYQn", { access_type: "offline", approval_prompt: "" }
 end

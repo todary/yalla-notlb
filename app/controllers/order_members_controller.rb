@@ -24,18 +24,44 @@ class OrderMembersController < ApplicationController
   # POST /order_members
   # POST /order_members.json
   def create
-    @order_member = OrderMember.new(order_member_params)
 
-    respond_to do |format|
-      if @order_member.save
-        format.html { redirect_to @order_member, notice: 'Order member was successfully created.' }
-        format.json { render :show, status: :created, location: @order_member }
-      else
-        format.html { render :new }
-        format.json { render json: @order_member.errors, status: :unprocessable_entity }
+      if @friend =  User.find_by(email: params[:email])
+        # @friend=User.where("email = "+params[:email])
+        # print "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n aa";
+        # print params[:order_id];
+        @order_member = OrderMember.new(order_member_params)
+        # @order_member.order_id=params[:order_id]
+        @order_member.user_id=@friend.id
+        @order_member.status_user=0
+        respond_to do |format|
+
+        if @order_member.save
+          format.html { redirect_to :back, notice: 'Order member was successfully created.' }
+          format.json { head :no_content}
+        else
+          format.html { redirect_to :back, notice: 'error in email' }
+          format.json { head :no_content}
+        end
       end
+    else
+        respond_to do |format|
+            format.html { redirect_to :back, notice: 'error in email' }
+        end
     end
+    # @order_member = OrderMember.new(order_member_params)
+
+    # respond_to do |format|
+    #   if @order_member.save
+    #     format.html { redirect_to @order_member, notice: 'Order member was successfully created.' }
+    #     format.json { render :show, status: :created, location: @order_member }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @order_member.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
+
+
 
   # PATCH/PUT /order_members/1
   # PATCH/PUT /order_members/1.json
@@ -56,7 +82,7 @@ class OrderMembersController < ApplicationController
   def destroy
     @order_member.destroy
     respond_to do |format|
-      format.html { redirect_to order_members_url, notice: 'Order member was successfully destroyed.' }
+      format.html { redirect_to :back, notice: 'Order member was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -71,4 +97,6 @@ class OrderMembersController < ApplicationController
     def order_member_params
       params.require(:order_member).permit(:order_id, :user_id, :status_user)
     end
+
+
 end

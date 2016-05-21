@@ -1,29 +1,117 @@
-<p id="notice"><%= notice %></p>
+<style>
+.add{
+  min-height:250px;
+  margin:10px;
+  background-color:#eee;
+  border-radius:10px;
+}
+h3{
+  border-bottom:1px solid #ccc ;
+}
+</style>
 
-<p>
-  <strong>Name:</strong>
-  <%= @order.name %>
-</p>
+<div class="add col-md-5 table-bordered" >
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Resturant:</strong>
-  <%= @order.resturant %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @order.name %>
+  </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @order.status %>
-</p>
+  <p>
+    <strong>Resturant:</strong>
+    <%= @order.resturant %>
+  </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @order.user %>
-</p>
+  <p>
+    <strong>Status:</strong>
+    <%= @order.status %>
+  </p>
 
-<p>
-  <strong>Image:</strong>
-  <%= @order.image %>
-</p>
+  <p>
+    <strong>User:</strong>
+    <%= @order.user.name %>
+  </p>
 
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
+  <p>
+    <strong>Image:</strong>
+    <%= @order.image %>
+  </p>
+
+    <div class="field">
+    <!-- <form action="<%= email_path %>" method="POST" accept-charset="utf-8"> -->
+    
+    <%= form_for(@order_member) do |f| %>
+     <%= f.label :'And Email friend & Groub Name' %><br>
+     <%= f.text_field_tag 'email' %>
+     <%= f.hidden_field_tag 'order_member[order_id]' ,"#{@order.id}"%>
+     <%= f.hidden_field_tag 'order_member[status]' ,"0"%>
+   
+      <%= f.submit "Add" , class:"btn btn-primary" %>
+    <% end %>
+    <!-- <input type="hidden" name="_method" value="patch" class="">
+      <label> And Email friend & Groub Name</label>
+      <br />
+      <input type="hidden" id="path" name="order_id" value="<%= @order.id%>"></input>
+      <input type="text"  id="member" name="email" class="member" ></input>
+       <input type="submit" class="btn btn-primary"></input>
+     -->
+      <!-- <button type="button" id="add_member" class="btn btn-primary">Add</button> -->
+    <!-- </form> -->
+  </div>
+  <%= link_to 'Edit', edit_order_path(@order) %> |
+  <%= link_to 'Back', orders_path %>
+</div>
+
+<div class="add col-md-5 table-bordered" >
+
+  <% if @users %>
+    <% @users.each do |user| %>
+    <div class="order">
+      <h5 class="col-md-3">
+        <i class="fa fa-paperclip" aria-hidden="true"></i>  <%= user.user.name %>
+      </h5>
+      <h6 class="col-md-2" style="color: red">
+      <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </h6>
+       
+    </div>
+    <% end %>
+    <% else %>
+    <h1>empty</h1>
+  <% end %>
+
+</div>
+<!-- 
+<script type="text/javascript">
+  
+        // console.log('sfdf');
+$(function () {
+ $('body').on('click', '#add_member', function ()
+  {
+      var member=$('#member').val();
+      var path=$('#path').val();
+      console.log(path);
+      // row_id = $(this).data('rowid');
+       var user = {}
+       user.email=member
+      console.log(user);
+
+        $.ajax
+                ({
+                    // url: 'users/email/:abanob.todary@gmail.com',
+                    // url:'http://localhost:3000/users/1',
+                    url:path,
+                    type: 'POST',
+                    data: user,
+                    success: function (data)
+                    {
+                        console.log(data);
+                    }
+
+                });
+
+  });
+
+});
+</script> -->
