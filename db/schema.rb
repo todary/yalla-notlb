@@ -107,7 +107,10 @@ ActiveRecord::Schema.define(version: 20160520120218) do
     t.string   "last_sign_in_ip",        limit: 255
     t.string   "provider",               limit: 255
     t.string   "uid",                    limit: 255
+<<<<<<< HEAD
+=======
 
+>>>>>>> dd41d3fdb3ddc11a351753baf69da92848bdb2e4
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
