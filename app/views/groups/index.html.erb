@@ -11,13 +11,18 @@
   padding-top:5px;
 
 }
-h3{
+h3 .head{
   border-bottom:1px solid #ccc ;
 }
+  .head:hover
+  {
+    background-color:#eee;
+    color:black;
+    text-decoration:none;
+  }
 .order{
   background-color:#fff;
   border-radius:2px;
-  width:3 0%;
    border-bottom:1px solid #ccc ;
    overflow:hidden;
    padding:5px;
@@ -35,7 +40,7 @@ h3{
   {
     margin-left:5px;
     font-size:16px;
-    margin-top:20px;
+    margin-top:30px;
     color:#333;
   }
    .link > i
@@ -68,7 +73,7 @@ h3{
 
 
     <% @groups.each do |group| %>
-      <div class="divcontainer">
+      <div class="divcontainer col-md-3">
         <div class="buttons col-md-6 pull-right">
             
             <%= link_to group,class:"pull-right green", method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-close"></i><% end %>
@@ -92,7 +97,7 @@ h3{
                 <%= hidden_field_tag :group_id, group.id %>
                <div class="field">
                   <%= f.label :user_id %><br />
-                   <%= collection_select(:group,:user_id,User.all,:id,:name, { :prompt => "Select Users"},class: "form-control")  %>
+                   <%= f.collection_select(:user_id,User.where("id !=?",current_user.id),:id,:name, { :prompt => "Select Users"},class: "form-control")  %>
 
                 </div>
 
@@ -113,11 +118,13 @@ h3{
             
             
           </div>
-        <h3><%= group.name %>
-          
+        <h3 class="col-md-6 pull-left">
+          <%= link_to  '/groups/'+group.id.to_s ,class:"pull-right head" do %>
+          <%=group.name%>
+          <% end %>
         </h3>
           <% group.group_members.each  do |groupmember| %>
-            <div class="order">
+            <div class="order col-md-10 pull-left">
             <p><%= groupmember.user.name.inspect %>  
             <%= link_to 'X', groupmember, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-sm btn-danger pull-right"%></p>
             </div>

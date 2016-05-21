@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
   # GET /groups/new
   def new
     @group = Group.new
-    @users = User.all :conditions => (current_user ? ["id != ?", current_user.id] : [])
+    # @users = User.where("id !=?",current_user.id)
   end
 
   # GET /groups/1/edit
@@ -32,22 +32,30 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     if(current_user)
-      @group = Group.new(group_params)
-      @group.user_id= current_user.id
+      # abort(group_params[:name])
+      if(group_params[:name])
+        @group = Group.new(group_params)
+        @group.user_id= current_user.id
 
-      @notify = Notification.new
-      @notify.user_id= current_user.id
-      @notify.content = 'has created group named  <span>params[:name]</span>'
+        @notify = Notification.new
+        @notify.user_id= current_user.id
+        @notify.content = 'has created group named  <span>params[:name]</span>'
 
-      respond_to do |format|
-        if @group.save
-          format.html { redirect_to '/group_members/new',group_id =@group.id , notice: 'Group was successfully created, add new members now.' }
-          # format.json { render :show, status: :created, location: @group }
-        else
-          format.html { render :new }
-          format.json { render json: @group.errors, status: :unprocessable_entity }
+        respond_to do |format|
+          if @group.save
+            format.html { redirect_to '/groups/' , notice: 'Group was successfully created, add new members now.' }
+            # format.json { render :show, status: :created, location: @group }
+          else
+            format.html { render :new }
+            format.json { render json: @group.errors, status: :unprocessable_entity }
+          end
         end
+      else
+        flash[:notice] = 'Group name is requierd.'
+        redirect_to '/groups/new'
+
       end
+
     else
       redirect_to "/users/sign_in"
     end
