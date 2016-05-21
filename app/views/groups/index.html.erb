@@ -92,7 +92,7 @@ h3{
                 <%= hidden_field_tag :group_id, group.id %>
                <div class="field">
                   <%= f.label :user_id %><br />
-                   <%= collection_select(:group,:user_id,User.all,:id,:name, { :prompt => "Select Users"},class: "form-control")  %>
+                   <%= f.collection_select(:user_id,User.all,:id,:name, { :prompt => "Select Users"},class: "form-control")  %>
 
                 </div>
 
