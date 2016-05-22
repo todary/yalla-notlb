@@ -54,7 +54,7 @@ user_name: ENV[“GMAIL_USERNAME”],
 password: ENV[“GMAIL_PASSWORD”]
 }
 =end
-
+config.middleware.use Rails::Rack::LogTailer
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end
