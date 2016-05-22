@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :order_details
   resources :order_members
   resources :orders
+  resources :orders do
+    resources :order_details
+  end
   resources :group_members
   resources :groups
   resources :friends
