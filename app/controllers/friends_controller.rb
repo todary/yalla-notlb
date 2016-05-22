@@ -29,7 +29,8 @@ class FriendsController < ApplicationController
     @friend.friend_id = params[:friend][:friend_id]
     respond_to do |format|
       if @friend.save
-        format.html { redirect_to @friend, notice: 'Friend was successfully created.' }
+        #format.html { redirect_to @friend, notice: 'Friend was successfully created.' }
+        format.html { redirect_to :action => 'index', notice: 'Friend was successfully created.' }
         format.json { render :show, status: :created, location: @friend }
       else
         format.html { render :new }
