@@ -11,7 +11,7 @@ h3{
 </style>
 <div class="add col-md-8 table-bordered" >
 <h3>Add New Group</h3>
-
+<p id="notice"><%= notice %></p>
 <%= form_for(@group) do |f| %>
   <% if @group.errors.any? %>
     <div class="alert alert-success" id="notice">

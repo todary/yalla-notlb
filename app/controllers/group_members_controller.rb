@@ -25,18 +25,28 @@ class GroupMembersController < ApplicationController
   # POST /group_members.json
   def create
     # where("id !=?",current_user.id)
-    # abort(params[:group_member][:user_id])
-    @group_member = GroupMember.new
-    @group_member.group_id = params[:group_id]
-    @group_member.user_id = params[:group_member][:user_id]
-    respond_to do |format|
-      if @group_member.save
-        format.html { redirect_to @group_member, notice: 'Group member was successfully add.' }
-        format.json { render :show, status: :created, location: @group_member }
-      else
-        format.html { render :new }
-        format.json { render json: @group_member.errors, status: :unprocessable_entity }
+    # abort(params[:group_id])
+    if(params[:group_member][:user_id])
+      @group_member = GroupMember.new
+      @group_member.group_id = params[:group_id]
+      @group_member.user_id = params[:group_member][:user_id]
+      @notify = Notification.new
+      @notify.user_id= current_user.id
+      @notify.content = 'has add new user to group named  "'+@group_member.group.name+'"'
+      @notify.save
+      respond_to do |format|
+        if @group_member.save
+          
+          format.html { redirect_to groups_url, notice: 'Group member was successfully add.' }
+          format.json { render :show, status: :created, location: @group_member }
+        else
+          format.html { render :new }
+          format.json { render json: @group_member.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      flash[:notice] = 'Group Menmber is requierd.'
+      redirect_to '/groups'
     end
   end
 
@@ -45,7 +55,7 @@ class GroupMembersController < ApplicationController
   def update
     respond_to do |format|
       if @group_member.update(group_member_params)
-        format.html { redirect_to @group_member, notice: 'Group member was successfully updated.' }
+        format.html { redirect_to groups_url, notice: 'Group member was successfully updated.' }
         format.json { render :show, status: :ok, location: @group_member }
       else
         format.html { render :edit }
@@ -59,7 +69,7 @@ class GroupMembersController < ApplicationController
   def destroy
     @group_member.destroy
     respond_to do |format|
-      format.html { redirect_to group_members_url, notice: 'Group member was successfully destroyed.' }
+      format.html { redirect_to groups_url, notice: 'Group member was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

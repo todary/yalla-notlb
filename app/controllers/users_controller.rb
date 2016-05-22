@@ -8,9 +8,12 @@ class UsersController < ApplicationController
       @users = User.all
       # @orders = Order.all
       # @orders = Order.find( :all,conditions: { user_id: current_user.id })
-      @orders = Order.where(user_id: current_user.id)
-      @notifications = Notification.where(user_id: current_user.id) #it's my notification untile now
+      @orders = Order.last(5).reverse
+      @notifications = []
 
+      for userFriend in current_user.friend1 do
+        @notifications << Notification.where(user_id:userFriend.friend_id)
+      end
     else
         redirect_to "/users/sign_in"
     end
