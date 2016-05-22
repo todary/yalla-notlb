@@ -33,7 +33,11 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     if(current_user)
+<<<<<<< HEAD
+       # abort(group_params[:name])
+=======
        abort(group_params[:name])
+>>>>>>> 57805d7cc9b0bd4ad1a24e9fff1864b6f44e18b2
       if(group_params[:name])
         @group = Group.new(group_params)
         @group.user_id= current_user.id
