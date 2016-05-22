@@ -104,6 +104,7 @@
     <![endif]-->
 
     
+
   </head>
 <body>
     <div class="effect2 navbar navbar-dark navbar-static-top">
@@ -117,6 +118,7 @@
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
             <li><%= link_to "Home", "/"  %></li>
+            <li><%= link_to "Friends", "/friends/"  %></li>
             <li><%= link_to "Groups", "/groups/"  %></li>
             <li><%= link_to "Order", "/orders/"  %></li>
           </ul>
@@ -126,6 +128,7 @@
 
             <li><%= link_to current_user.name, '/users/sign_out', method: :delete %></li>
             <li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li>
+
           <% else %>
           <li><%= link_to 'Sign_in', '/users/sign_in', method: :get %>
           <% end %></li>
