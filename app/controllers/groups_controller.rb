@@ -26,23 +26,24 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
+
   end
 
   # POST /groups
   # POST /groups.json
   def create
     if(current_user)
-      # abort(group_params[:name])
+       # abort(group_params[:name])
       if(group_params[:name])
         @group = Group.new(group_params)
         @group.user_id= current_user.id
-
-        @notify = Notification.new
-        @notify.user_id= current_user.id
-        @notify.content = 'has created group named  <span>params[:name]</span>'
-
+        
         respond_to do |format|
           if @group.save
+            @notify = Notification.new
+            @notify.user_id= current_user.id
+            @notify.content = 'has created group named  "'+@group.name+'"'
+            @notify.save
             format.html { redirect_to '/groups/' , notice: 'Group was successfully created, add new members now.' }
             # format.json { render :show, status: :created, location: @group }
           else
@@ -66,6 +67,10 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
+        @notify = Notification.new
+        @notify.user_id= current_user.id
+        @notify.content = 'has updated group named  "'+@group.name+'"'
+        @notify.save
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { render :show, status: :ok, location: @group }
       else
@@ -78,6 +83,12 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
+    @group.group_members.destroy
+    
+    @notify = Notification.new
+        @notify.user_id= current_user.id
+        @notify.content = 'has deleted group named  "'+@group.name+'"'
+        @notify.save
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }

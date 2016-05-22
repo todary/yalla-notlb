@@ -114,7 +114,7 @@ h3{
         </h3>
           <% @group.group_members.each  do |groupmember| %>
             <div class="order">
-            <p><%= groupmember.user.name.inspect %>  
+            <p><%= groupmember.user.name %>  
             <%= link_to 'X', groupmember, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-sm btn-danger pull-right"%></p>
             </div>
           <% end %>

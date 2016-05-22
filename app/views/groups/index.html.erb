@@ -11,7 +11,7 @@
   padding-top:5px;
 
 }
-h3 .head{
+h4  > a {
   border-bottom:1px solid #ccc ;
 }
   .head:hover
@@ -21,7 +21,7 @@ h3 .head{
     text-decoration:none;
   }
 .order{
-  background-color:#fff;
+  background-color:#2b0d33;
   border-radius:2px;
    border-bottom:1px solid #ccc ;
    overflow:hidden;
@@ -30,17 +30,19 @@ h3 .head{
    margin:2px;
    margin-top:8px;
    box-shadow:3px 3px 10px #333;
+   color:white;
 
 }
   .order:hover
   {
-    background-color:#ccc;
+    background-color:white;
+    color:#2b0d33;
   }
   .buttons > a , .link > i
   {
     margin-left:5px;
     font-size:16px;
-    margin-top:30px;
+    margin-top:10px;
     color:#333;
   }
    .link > i
@@ -74,9 +76,9 @@ h3 .head{
 
     <% @groups.each do |group| %>
       <div class="divcontainer col-md-3">
-        <div class="buttons col-md-6 pull-right">
+        <div class="buttons col-md-4 pull-right" >
             
-            <%= link_to group,class:"pull-right green", method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-close"></i><% end %>
+            <%= link_to group,class:"pull-right green", method: :delete, data: { confirm: 'Are you sure you want to delete this group !!?' } do %><i class="fa fa-close"></i><% end %>
             <%= link_to edit_group_path(group),class:"pull-right" do %><i class="fa fa-pencil-square-o"></i><% end %>
             
           <!--   <%= link_to new_group_member_path,class:"pull-right"  do %><i class="fa fa-user-plus"></i> <% end %> -->
@@ -118,11 +120,11 @@ h3 .head{
             
             
           </div>
-        <h3 class="col-md-6 pull-left">
-          <%= link_to  '/groups/'+group.id.to_s ,class:"pull-right head" do %>
+        <h4 class="col-md-7 pull-left">
+          <%= link_to  '/groups/'+group.id.to_s ,class:"pull-left head" do %>
           <%=group.name%>
           <% end %>
-        </h3>
+        </h4>
           <% group.group_members.each  do |groupmember| %>
             <div class="order col-md-10 pull-left">
             <p><%= groupmember.user.name.inspect %>  
