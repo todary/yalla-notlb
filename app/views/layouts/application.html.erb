@@ -6,14 +6,14 @@
             box-shadow: 0 8px 6px -6px black;
 
     } 
-    .navbar-brand , .navbar-brand:visited{
+    .navbar-brand , .navbar-brand:visited,.navbar-inverse li a{
         color:white;
     }
     .navbar-brand:hover{
         color:#eee;
     }
     .nav li a{
-        color:#eee;
+        color:white;
     }
     .nav li a:hover{
         color:#00004b;
@@ -21,12 +21,13 @@
     .container
     {
         padding-top:5px;
-        margin-top:0px;
+       min-height:330px; 
     } 
     #footer{
         color:white;
         box-shadow:0px 3px 10px #333;
-        margin-top:20px;
+        margin-bottom:0px;
+        padding:5px 20px;
     }
     /*==================================================
  * Effect 7
@@ -62,6 +63,10 @@
         -ms-transform:skew(8deg) rotate(3deg);
          -o-transform:skew(8deg) rotate(3deg);
             transform:skew(8deg) rotate(3deg);
+}
+.clearfix
+{
+    height:20px;
 }
 
 </style>
@@ -107,8 +112,7 @@
 
   </head>
 <body>
-    <div class="effect2 navbar navbar-dark navbar-static-top">
-      <div class="container">
+    <div class="effect2 navbar navbar-static-top">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -145,79 +149,83 @@
         <!-- the main content of page--><%= yield %>
             </div>
         </div>
-
-       <!-- footer sector -->
-                <!--=========== BEGIN FOOTER SECTION ================-->
-                <div class="clearfix"></div>
-                <div class="clearfix"></div>
-                <footer id="footer" class="effect7">
-                    <!-- Start footer top area -->
-                    <div class="footer_top">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-ld-3  col-md-3 col-sm-3">
-                                    <div class="single_footer_widget">
-                                        <h3>About Us</h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                    </div>
-                                </div>
-                                <div class="col-ld-3  col-md-3 col-sm-3">
-                                    <div class="single_footer_widget">
-                                        <h3>Categories</h3>
-                                        <ul class="footer_widget_nav">
-                                            <li><a href="#">Our Tutors</a></li>
-                                            <li><a href="#">Our Students</a></li>
-                                            <li><a href="#">Our Team</a></li>
-                                            <li><a href="#">Forum</a></li>
-                                            <li><a href="#">News &amp; Media</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-ld-3  col-md-3 col-sm-3">
-                                    <div class="single_footer_widget">
-                                        <h3>Stuff</h3>
-                                        <ul class="footer_widget_nav">
-                                            <li><a href="#">Link 1</a></li>
-                                            <li><a href="#">Link 2</a></li>
-                                            <li><a href="#">Link 3</a></li>
-                                            <li><a href="#">Link 4</a></li>
-                                            <li><a href="#">Link 5</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-ld-3  col-md-3 col-sm-3">
-                                    <div class="single_footer_widget">
-                                        <h3>Social Links</h3>
-                                        <ul class="footer_social">
-                                            <li><a data-toggle="tooltip" data-placement="top" title="Facebook" class="soc_tooltip" href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a data-toggle="tooltip" data-placement="top" title="Twitter" class="soc_tooltip"  href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a data-toggle="tooltip" data-placement="top" title="Google+" class="soc_tooltip"  href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            <li><a data-toggle="tooltip" data-placement="top" title="Linkedin" class="soc_tooltip"  href="#"><i class="fa fa-linkedin"></i></a></li>
-                                            <li><a data-toggle="tooltip" data-placement="top" title="Youtube" class="soc_tooltip"  href="#"><i class="fa fa-youtube"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+    </div>
+     <!-- footer sector -->
+    <!--=========== BEGIN FOOTER SECTION ================-->
+    <div class="clearfix"></div>
+    <div class="clearfix"></div>
+    <footer id="footer" class="effect7 navbar navbar-default navbar-static-bottom">
+        <!-- Start footer top area -->
+        <div class="footer_top">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-ld-3  col-md-3 col-sm-3">
+                        <div class="single_footer_widget">
+                            <h3>About Us</h3>
+                            <p>Yalla-notlob is a community websiite mange us to order and invite friends to our order and mange amount and price of each order, we are so glade to serve you so enjoy .</p>
                         </div>
                     </div>
-                    <!-- End footer top area -->
-
-                    <!-- Start footer bottom area -->
-                    <div class="footer_bottom">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="footer_bootomLeft">
-                                        <p> Copyright &copy; All Rights Reserved</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col-ld-2  col-md-2 col-sm-2">
+                        <div class="single_footer_widget">
+                            <h3>Latest Orders</h3>
+                            <ul class="footer_widget_nav">
+                            <% @orders.each do |o|%>
+                                <li><a href="#"><%= o.name %></a></li>
+                            <% end %>
+                            </ul>
                         </div>
                     </div>
-                    <!-- End footer bottom area -->
-                </footer>
-                <!--=========== END FOOTER SECTION ================--> 
-                <!-- end of footer -->
+                    <div class="col-ld-2  col-md-2 col-sm-2">
+                        <div class="single_footer_widget">
+                            <h3>Friends</h3>
+                            <ul class="footer_widget_nav">
+                            <% @friends.each do |f|%>
+                                <li><a href="#"><%= f.user.name %></a></li>
+                            <% end %>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-ld-2  col-md-2 col-sm-2">
+                        <div class="single_footer_widget">
+                            <h3>Groups</h3>
+                            <ul class="footer_widget_nav">
+                                <% @groups.each do |g|%>
+                                <li><a href="#"><%= g.name %></a></li>
+                            <% end %>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-ld-3  col-md-3 col-sm-3">
+                        <div class="single_footer_widget">
+                            <h3>Social Links</h3>
+                            <ul class="footer_social">
+                                <li><a data-toggle="tooltip" data-placement="top" title="Facebook" class="soc_tooltip" href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a data-toggle="tooltip" data-placement="top" title="Twitter" class="soc_tooltip"  href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a data-toggle="tooltip" data-placement="top" title="Google+" class="soc_tooltip"  href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a data-toggle="tooltip" data-placement="top" title="Linkedin" class="soc_tooltip"  href="#"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a data-toggle="tooltip" data-placement="top" title="Youtube" class="soc_tooltip"  href="#"><i class="fa fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End footer top area -->
+
+        <!-- Start footer bottom area -->
+        <div class="footer_bottom">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="footer_bootomLeft">
+                            <p> Copyright &copy; All Rights Reserved ITI intake36 Mansoura</p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- End footer bottom area -->
+    </footer>
+    <!--=========== END FOOTER SECTION ================--> 
+    <!-- end of footer -->
 
 </body>
 </html>

@@ -16,6 +16,16 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     # @members = GroupMember.find(@user.id, :include => :comments)
+    @members = GroupMember.where( 'group_id = '+params[:id]).pluck(:user_id)
+    @friends_of_user = []
+    for userFriend in current_user.friend1 do
+      @friends_of_user << User.where('id IN (?)',userFriend.friend_id).pluck(:id)
+    end
+    if(@members.count > 0)
+      @friend_users = User.where('id IN (?)',@friends_of_user.map(&:first)).where('id NOT IN (?)',@members)
+    else
+      @friend_users = User.where('id IN (?)',@friends_of_user.map(&:first))
+    end
   end
 
   # GET /groups/new
@@ -42,6 +52,7 @@ class GroupsController < ApplicationController
             @notify = Notification.new
             @notify.user_id= current_user.id
             @notify.content = 'has created group named  "'+@group.name+'"'
+            @notify.url = "/groups/"+@group.id.to_s
             @notify.save
             format.html { redirect_to '/groups/' , notice: 'Group was successfully created, add new members now.' }
             # format.json { render :show, status: :created, location: @group }
@@ -69,6 +80,7 @@ class GroupsController < ApplicationController
         @notify = Notification.new
         @notify.user_id= current_user.id
         @notify.content = 'has updated group named  "'+@group.name+'"'
+        @notify.url = "/groups/"+@group.id.to_s
         @notify.save
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { render :show, status: :ok, location: @group }
@@ -87,6 +99,7 @@ class GroupsController < ApplicationController
     @notify = Notification.new
         @notify.user_id= current_user.id
         @notify.content = 'has deleted group named  "'+@group.name+'"'
+        @notify.url = "/groups/"
         @notify.save
     @group.destroy
     respond_to do |format|

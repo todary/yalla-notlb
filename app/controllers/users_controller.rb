@@ -14,6 +14,7 @@ class UsersController < ApplicationController
       for userFriend in current_user.friend1 do
         @notifications << Notification.where(user_id:userFriend.friend_id)
       end
+      # @notifications.order(created_at: :desc).limit(5)
     else
         redirect_to "/users/sign_in"
     end

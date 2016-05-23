@@ -8,6 +8,9 @@ gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) support
 gem "twitter-bootstrap-rails"
 
 
+gem "letter_opener", :group => :development
+gem 'magnific-popup-rails', '~> 0.9.9.1'
+
 
 # Use carrierwave to upload image
 gem 'carrierwave'

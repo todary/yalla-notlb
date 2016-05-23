@@ -5,9 +5,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   has_many :friend1, class_name: "Friend", foreign_key: "user_id"
   has_many :friend2, class_name: "Friend", foreign_key: "friend_id"
+
   has_many :group
   has_many :order
   has_many :notification
+  has_many :friends
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
