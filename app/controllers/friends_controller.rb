@@ -27,6 +27,12 @@ class FriendsController < ApplicationController
     @friend = Friend.new
     @friend.user_id = params[:user_id]
     @friend.friend_id = params[:friend][:friend_id]
+    #friend=Friend.where(friend_id: @friend.friend_id)
+    #friend=Friend.where("friend_id = #{params[:friend][:friend_id]}")
+    #friend = Friend.find(:all, :conditions => { :friend_id => params[:friend][:friend_id] }, :limit => 1)
+    friend = Friend.find_by_friend_id params[:friend][:friend_id]
+  unless friend
+
     respond_to do |format|
       if @friend.save
         #format.html { redirect_to @friend, notice: 'Friend was successfully created.' }
@@ -37,7 +43,15 @@ class FriendsController < ApplicationController
         format.json { render json: @friend.errors, status: :unprocessable_entity }
       end
     end
+  
+  else
+    respond_to do |format|
+      format.html { redirect_to :action => 'index', notice: 'Friend was added before.' }
+      format.json { render :show, status: :unprocessable_entity, location: @friend }
+
+    end  
   end
+end
 
   # PATCH/PUT /friends/1
   # PATCH/PUT /friends/1.json
