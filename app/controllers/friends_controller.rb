@@ -4,7 +4,8 @@ class FriendsController < ApplicationController
   # GET /friends
   # GET /friends.json
   def index
-    @friends = Friend.all
+    #@friends = Friend.all
+    @friends=Friend.where(user_id: current_user.id)
   end
 
   # GET /friends/1
@@ -27,12 +28,11 @@ class FriendsController < ApplicationController
     @friend = Friend.new
     @friend.user_id = params[:user_id]
     @friend.friend_id = params[:friend][:friend_id]
-    #friend=Friend.where(friend_id: @friend.friend_id)
-    #friend=Friend.where("friend_id = #{params[:friend][:friend_id]}")
-    #friend = Friend.find(:all, :conditions => { :friend_id => params[:friend][:friend_id] }, :limit => 1)
-    friend = Friend.find_by_friend_id params[:friend][:friend_id]
-  unless friend
-
+    # @friend1 = Friend.find_by_friend_id params[:friend][:friend_id]
+    #@friend2 = Friend.find_by_user_id params[:user_id]
+    @friend1=Friend.where(user_id: params[:user_id]).where(friend_id: params[:friend][:friend_id])
+  if @friend1.nil?
+#if @friend1.nil? && @friend2.nil?
     respond_to do |format|
       if @friend.save
         #format.html { redirect_to @friend, notice: 'Friend was successfully created.' }

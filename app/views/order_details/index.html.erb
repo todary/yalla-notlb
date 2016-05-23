@@ -30,31 +30,37 @@
   </tbody>
 </table>
 
-<br>
-<%= form_for :order_detail do |f| %>
-  <table class=" table table-striped" >
-  <thead>
-    <tr>
-      <th><%= f.label :item %></th>
-      <th><%= f.label :amount %></th>
-      <th> <%= f.label :price %></th>
-      <th><%= f.label :comment %></th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td> <%= f.text_field :item, :required => true %></td>
-        <td> <%= f.number_field :amount, :required => true %></td>
-        <td> <%= f.text_field :price, :required => true %></td>
-        <td><%= f.text_area :comment %></td>
-         <%= f.hidden_field :order_id, :value => params[:order_id] %>
-         <%= f.hidden_field :user_id, :value => current_user.id %>
-        <td><%= f.submit :add ,class: 'btn btn-primary'%></td>
+<% @orderId.each do |ore| %>
+<% if ore.status %>
 
+  <br>
+  <%= form_for :order_detail do |f| %>
+    <table class=" table table-striped" >
+    <thead>
+      <tr>
+        <th><%= f.label :item %></th>
+        <th><%= f.label :amount %></th>
+        <th> <%= f.label :price %></th>
+        <th><%= f.label :comment %></th>
+        <th colspan="3"></th>
       </tr>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+        <tr>
+          <td> <%= f.text_field :item, :required => true %></td>
+          <td> <%= f.number_field :amount, :required => true %></td>
+          <td> <%= f.text_field :price, :required => true %></td>
+          <td><%= f.text_area :comment %></td>
+           <%= f.hidden_field :order_id, :value => params[:order_id] %>
+           <%= f.hidden_field :user_id, :value => current_user.id %>
+          <td><%= f.submit :add ,class: 'btn btn-primary'%></td>
+
+        </tr>
+    </tbody>
+  </table>
+  <% end %>
+  <% else %>
+  <% end %>
 <% end %>
 
 <%= link_to "#{@order_details.count} friends invited click to view",order_details_path, style: "color:blue" %><br>
