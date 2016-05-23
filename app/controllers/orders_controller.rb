@@ -18,6 +18,23 @@ class OrdersController < ApplicationController
   def show
   end
 
+  def finsh
+    @order = Order.find(params[:id])
+    @order.status=0
+    @order.save
+    flash[:notice] = 'Order has finished and closed.'
+    redirect_to '/orders/'
+    # respond_to do |format|
+    #   if @order.update(order_params)
+    #       format.html { redirect_to :back, notice: 'Order member was successfully created.' }
+    #       format.json { head :no_content}
+    #     else
+    #       format.html { redirect_to :back, notice: 'error in email' }
+    #       format.json { head :no_content}
+    #   end
+    # end
+  end
+
   # GET /orders/new
   def new
     @order = Order.new

@@ -31,11 +31,16 @@
         <td>Finish</td>
         <% end %>
         <td><%= link_to 'Show', order_details_path,class: 'btn btn-primary'  %></td>
-
+        <% if order.status? %>
         <td><%= link_to 'Finish',
-           edit_order_path(order),
+           finsh_path(order),
            class: 'btn btn-info' %>
         </td>
+        <td><%= link_to 'Add Friend', '/orders/'+order.id.to_s,class: 'btn btn-primary'  %></td>
+         <% else %>
+         <td><span>finshed</span></td>
+         <td><span>canot add friend</span></td>
+         <% end %>
         <td><%= link_to 'cancel', order, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'  %>
         </td>
       </tr>

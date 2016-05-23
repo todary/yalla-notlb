@@ -32,12 +32,7 @@ class OrderMembersController < ApplicationController
         @order_member = OrderMember.new(order_member_params)
         # @order_member.order_id=params[:order_id]
         @order_member.user_id=@friend.id
-        @order_member.status_user=0
-	@notification = Notification.new
-        @notification.user_id=@friend.id
-        @notification.status=0
-        @notification.content=@friend.name+" invited you to order"
-        @notification.save
+        @order_member.status_user=0	
         respond_to do |format|
 
         if @order_member.save
