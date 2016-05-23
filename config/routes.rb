@@ -4,12 +4,13 @@ Rails.application.routes.draw do
   resources :order_members
   resources :orders
   resources :orders do
-    resources :order_details
+  resources :order_details
   end
   resources :group_members
   resources :groups
   resources :friends
   devise_for :users, :controllers => { registrations: 'registrations' , :omniauth_callbacks => "users/omniauth_callbacks" }
+  get 'finshorder/:id' , :to => 'orders#finsh',:as => 'finsh'
   #devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   # resources :users
