@@ -41,12 +41,20 @@ h3{
     <div class="field">
     <!-- <form action="<%= email_path %>" method="POST" accept-charset="utf-8"> -->
     
-    <%= form_for(@order_member) do |f| %>
-     <%= f.label :'And Email friend & Groub Name' %><br>
-     <%= f.text_field_tag 'email' %>
-     <%= f.hidden_field_tag 'order_member[order_id]' ,"#{@order.id}"%>
-     <%= f.hidden_field_tag 'order_member[status]' ,"0"%>
+      <%= form_for(@order_member) do |f| %>
+      <%= f.label :'Add Email friend ' %><br>
+      <%= f.text_field_tag 'email' %>
+      <%= f.hidden_field_tag 'order_member[order_id]' ,"#{@order.id}"%>
+      <%= f.hidden_field_tag 'order_member[status]' ,"0"%>
       <%= f.submit "Add" , class:"btn btn-primary" %>
+    <br/>
+      <%= form_for(@order_group) do |f| %>
+      <%= f.label :'Add Groub Name' %><br>
+      <%= f.text_field_tag 'group' %>
+      <%= f.hidden_field_tag 'order_member[order_id]' ,"#{@order.id}"%>
+      <%= f.hidden_field_tag 'order_member[status]' ,"0"%>
+      <%= f.submit "Add" , class:"btn btn-primary" %>
+      <% end %>
     <% end %>
     <!-- <input type="hidden" name="_method" value="patch" class="">
       <label> And Email friend & Groub Name</label>
