@@ -17,7 +17,7 @@ h3{
 .order{
   background-color:#fff;
   border-radius:2px;
-  width:3 0%;
+  width:90%;
    border-bottom:1px solid #ccc ;
    overflow:hidden;
    padding:5px;
@@ -60,6 +60,24 @@ h3{
   {
     color:green;
   }
+.user
+{
+  border-top:1px solid #bbb;
+  width:100%;
+  overflow:hidden;
+  margin:10px 0px;
+}
+.order-user{
+  background-color:#fff;
+  border-radius:2px;
+  width:12%;
+   overflow:hidden;
+   padding:5px;
+   padding-bottom:0px;
+   margin:5px;
+   box-shadow:3px 3px 10px #333;
+
+}
 </style>
 <p id="notice"><%= notice %></p>
 <%= link_to 'New Group', new_group_path,  class:"pull-right btn btn-sm btn-default"%>
@@ -68,56 +86,35 @@ h3{
         <div class="buttons col-md-6 pull-right">
             
             <%= link_to @group,class:"pull-right green", method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-close"></i><% end %>
-            <%= link_to edit_group_path(@group),class:"pull-right" do %><i class="fa fa-pencil-square-o"></i><% end %>
+            <%= link_to edit_group_path(@group),class:"pull-right" do %><i class="fa fa-pencil-square-o"></i><% end %>       
             
-          <!--   <%= link_to new_group_member_path,class:"pull-right"  do %><i class="fa fa-user-plus"></i> <% end %> -->
-          <!-- Large modal -->
-          <a class="link pull-right" data-toggle="modal" data-target="#exampleModal">
-            <i class="fa fa-user-plus" aria-hidden="true"></i>
-          </a>
-
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="exampleModalLabel">Add Users to Group</h4>
-            </div>
-            <div class="modal-body">
-              <%= form_for([GroupMember.new]) do |f| %>
-                <%= hidden_field_tag :group_id, @group.id %>
-               <div class="field">
-                  <%= f.label :user_id %><br />
-                   <%= f.collection_select(:user_id,User.where("id !=?",current_user.id),:id,:name, { :prompt => "Select Users"},class: "form-control")  %>
-
-                </div>
-
-              <div class="actions">
-                
-              </div>
-            
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <%= f.submit "Add Users" , class: "btn btn-default btn-primary" %> 
-              <% end %>
-            </div>
-          </div>
         </div>
-      </div>
-            
-            
-          </div>
+
         <h3><%= @group.name %>
           
         </h3>
-          <% @group.group_members.each  do |groupmember| %>
-            <div class="order">
-            <p><%= groupmember.user.name %>  
-            <%= link_to 'X', groupmember, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-sm btn-danger pull-right"%></p>
-            </div>
-          <% end %>
+
+        <% @group.group_members.each  do |groupmember| %>
+          <div class="order">
+          <p><%= groupmember.user.name %>  
+          <%= link_to 'X', groupmember, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-sm btn-danger pull-right"%></p>
+          </div>
+        <% end %>
+        <div class="user">
+          <h4> Friends Out Of Group: </h4>
+        <% @friend_users.each  do |fr|%>
+          <div class="order-user">
+            <%= form_for([GroupMember.new]) do |f| %>
+              <%= hidden_field_tag :group_id, @group.id %>
+              <%= hidden_field_tag :user_id, fr.id %>
+              <%= fr.name %>  
+              <%= f.submit "+" , class: "btn btn-sm btn-primary" %>
+            <% end %>
+
+          </div>
+
+        <% end %>
+        </div>
       </div>
         
       </tr>

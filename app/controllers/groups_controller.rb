@@ -16,6 +16,16 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     # @members = GroupMember.find(@user.id, :include => :comments)
+    @members = GroupMember.where( 'group_id = '+params[:id]).pluck(:user_id)
+    @friends_of_user = []
+    for userFriend in current_user.friend1 do
+      @friends_of_user << User.where('id IN (?)',userFriend.friend_id).pluck(:id)
+    end
+    if(@members.count > 0)
+      @friend_users = User.where('id IN (?)',@friends_of_user.map(&:first)).where('id NOT IN (?)',@members)
+    else
+      @friend_users = User.where('id IN (?)',@friends_of_user.map(&:first))
+    end
   end
 
   # GET /groups/new

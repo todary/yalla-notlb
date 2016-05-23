@@ -26,10 +26,10 @@ class GroupMembersController < ApplicationController
   def create
     # where("id !=?",current_user.id)
     # abort(params[:group_id])
-    if(params[:group_member][:user_id])
+    if(params[:user_id])
       @group_member = GroupMember.new
       @group_member.group_id = params[:group_id]
-      @group_member.user_id = params[:group_member][:user_id]
+      @group_member.user_id = params[:user_id]
       @notify = Notification.new
       @notify.user_id= current_user.id
       @notify.content = 'has add new user to group named  "'+@group_member.group.name+'"'
@@ -37,7 +37,7 @@ class GroupMembersController < ApplicationController
       respond_to do |format|
         if @group_member.save
           
-          format.html { redirect_to groups_url, notice: 'Group member was successfully add.' }
+          format.html { redirect_to '/groups/'+params[:group_id], notice: 'Group member was successfully add.' }
           format.json { render :show, status: :created, location: @group_member }
         else
           format.html { render :new }
@@ -55,7 +55,8 @@ class GroupMembersController < ApplicationController
   def update
     respond_to do |format|
       if @group_member.update(group_member_params)
-        format.html { redirect_to groups_url, notice: 'Group member was successfully updated.' }
+        num = @group_member.group_id
+        format.html { redirect_to '/groups/'+num.to_s, notice: 'Group member was successfully updated.' }
         format.json { render :show, status: :ok, location: @group_member }
       else
         format.html { render :edit }
@@ -67,9 +68,10 @@ class GroupMembersController < ApplicationController
   # DELETE /group_members/1
   # DELETE /group_members/1.json
   def destroy
+    num = @group_member.group_id
     @group_member.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group member was successfully destroyed.' }
+      format.html { redirect_to '/groups/'+num.to_s, notice: 'Group member was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
