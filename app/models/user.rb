@@ -3,11 +3,16 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+=begin
   has_many :friend1, class_name: "Friend", foreign_key: "user_id"
   has_many :friend2, class_name: "Friend", foreign_key: "friend_id"
+
+=end
+
   has_many :group
   has_many :order
   has_many :notification
+  has_many :friends
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

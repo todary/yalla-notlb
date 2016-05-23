@@ -27,9 +27,8 @@ h3{
   <% end %>
 <%= hidden_field_tag :user_id, current_user.id %>
   <div class="field">
-
     <%= f.label :user %><br>
-    <%= f.collection_select(:friend_id,User.all,:id,:name, { :prompt => "Select friend"},class: "form-control")  %>
+    <%= f.collection_select(:friend_id,User.where.not(id: current_user.id),:id,:name, { :prompt => "Select friend"},class: "form-control")  %>
   </div>
   <div class="actions">
     <%= f.submit "Add", class:"btn btn-default btn-primary"  %>
