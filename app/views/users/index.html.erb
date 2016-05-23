@@ -71,7 +71,7 @@ h3{
         <% @notifications.each do |note| %>
         <% note = note.order(created_at: :desc).limit(5)%>
           <% note.each do |n| %>
-
+          <%= link_to n.url do %>
           <div class="order">
             <h4>
               <i class="fa fa-bell" aria-hidden="true"></i><span style="color:red">
@@ -83,6 +83,7 @@ h3{
               <i class="fa fa-clock-o" aria-hidden="true"></i>  <%= n.created_at %>
            </p>
          </div>
+         <%end%>
             
           
       <% end %>

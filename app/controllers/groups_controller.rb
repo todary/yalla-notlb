@@ -52,6 +52,7 @@ class GroupsController < ApplicationController
             @notify = Notification.new
             @notify.user_id= current_user.id
             @notify.content = 'has created group named  "'+@group.name+'"'
+            @notify.url = "/groups/"+@group.id.to_s
             @notify.save
             format.html { redirect_to '/groups/' , notice: 'Group was successfully created, add new members now.' }
             # format.json { render :show, status: :created, location: @group }
@@ -79,6 +80,7 @@ class GroupsController < ApplicationController
         @notify = Notification.new
         @notify.user_id= current_user.id
         @notify.content = 'has updated group named  "'+@group.name+'"'
+        @notify.url = "/groups/"+@group.id.to_s
         @notify.save
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { render :show, status: :ok, location: @group }
@@ -97,6 +99,7 @@ class GroupsController < ApplicationController
     @notify = Notification.new
         @notify.user_id= current_user.id
         @notify.content = 'has deleted group named  "'+@group.name+'"'
+        @notify.url = "/groups/"
         @notify.save
     @group.destroy
     respond_to do |format|

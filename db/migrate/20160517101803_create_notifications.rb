@@ -4,7 +4,6 @@ class CreateNotifications < ActiveRecord::Migration
       t.references :user, index: true, foreign_key: true
       t.text :content
       t.boolean :status
-
       t.timestamps null: false
     end
   end
