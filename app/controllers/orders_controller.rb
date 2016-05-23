@@ -96,6 +96,7 @@ class OrdersController < ApplicationController
       @order = Order.find(params[:id])
       @users = OrderMember.where(order_id: params[:id])
       @order_member = OrderMember.new
+      @order_group = Group.new
       @notification = Notification.new
       # @users = Order_member.find_by order_id: params[:id]
       # @users = Order_member.all :conditions => (order_id ? ["order_id != ?", params[:id]] : [])
