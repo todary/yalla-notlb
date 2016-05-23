@@ -269,10 +269,14 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
 require "omniauth-facebook"
+#localhost
 #config.omniauth :facebook, "1710992119148922", "4b8ca4332a944cc768d08ca7a705f868"
+#yalanotlobordr.herokuapp.com
 config.omniauth :facebook, "1619847678333025", "162807ab2f329563f918ca6fecf48777"
 
 require "omniauth-google-oauth2"
+#localhost
 #config.omniauth :google_oauth2, "865790076923-r50mro6buvl7uj7e3rcvh1kk1cfsmth4.apps.googleusercontent.com", "EEq2IBjDf-RUrH74ndTd0eK4", { access_type: "offline", approval_prompt: "" }
+#yalanotlobordr.herokuapp.com
 config.omniauth :google_oauth2, "865790076923-0ruhc83ci4roco7h2k6c57usoi57ef8u.apps.googleusercontent.com", "ASgish-sWAb8sbDGm7nhBYQn", { access_type: "offline", approval_prompt: "" }
 end
