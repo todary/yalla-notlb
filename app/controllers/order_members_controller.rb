@@ -36,6 +36,11 @@ class OrderMembersController < ApplicationController
         respond_to do |format|
 
         if @order_member.save
+            @notify = Notification.new
+            @notify.user_id= current_user.id
+            @notify.content = ' has add '+@friend.name+'  "'+@order_member.order.name+'"'
+            @notify.url = "/orders/"+@order_member.order_id.to_s+"/order_details"
+            @notify.save
           format.html { redirect_to :back, notice: 'Order member was successfully created.' }
           format.json { head :no_content}
         else

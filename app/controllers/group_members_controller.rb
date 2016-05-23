@@ -33,6 +33,7 @@ class GroupMembersController < ApplicationController
       @notify = Notification.new
       @notify.user_id= current_user.id
       @notify.content = 'has add new user to group named  "'+@group_member.group.name+'"'
+      @notify.url = "/groups/"+@group_member.group.id.to_s
       @notify.save
       respond_to do |format|
         if @group_member.save
