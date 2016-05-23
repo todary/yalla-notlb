@@ -162,30 +162,36 @@
                     <div class="col-ld-3  col-md-3 col-sm-3">
                         <div class="single_footer_widget">
                             <h3>About Us</h3>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                            <p>Yalla-notlob is a community websiite mange us to order and invite friends to our order and mange amount and price of each order, we are so glade to serve you so enjoy .</p>
                         </div>
                     </div>
-                    <div class="col-ld-3  col-md-3 col-sm-3">
+                    <div class="col-ld-2  col-md-2 col-sm-2">
                         <div class="single_footer_widget">
-                            <h3>Categories</h3>
+                            <h3>Latest Orders</h3>
                             <ul class="footer_widget_nav">
-                                <li><a href="#">Our Tutors</a></li>
-                                <li><a href="#">Our Students</a></li>
-                                <li><a href="#">Our Team</a></li>
-                                <li><a href="#">Forum</a></li>
-                                <li><a href="#">News &amp; Media</a></li>
+                            <% @orders.each do |o|%>
+                                <li><a href="#"><%= o.name %></a></li>
+                            <% end %>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-ld-3  col-md-3 col-sm-3">
+                    <div class="col-ld-2  col-md-2 col-sm-2">
                         <div class="single_footer_widget">
-                            <h3>Stuff</h3>
+                            <h3>Friends</h3>
                             <ul class="footer_widget_nav">
-                                <li><a href="#">Link 1</a></li>
-                                <li><a href="#">Link 2</a></li>
-                                <li><a href="#">Link 3</a></li>
-                                <li><a href="#">Link 4</a></li>
-                                <li><a href="#">Link 5</a></li>
+                            <% @friends.each do |f|%>
+                                <li><a href="#"><%= f.user.name %></a></li>
+                            <% end %>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-ld-2  col-md-2 col-sm-2">
+                        <div class="single_footer_widget">
+                            <h3>Groups</h3>
+                            <ul class="footer_widget_nav">
+                                <% @groups.each do |g|%>
+                                <li><a href="#"><%= g.name %></a></li>
+                            <% end %>
                             </ul>
                         </div>
                     </div>
@@ -211,7 +217,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="footer_bootomLeft">
-                            <p> Copyright &copy; All Rights Reserved</p>
+                            <p> Copyright &copy; All Rights Reserved ITI intake36 Mansoura</p>
                         </div>
                     </div>
                 </div>
