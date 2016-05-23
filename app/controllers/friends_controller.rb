@@ -28,16 +28,11 @@ class FriendsController < ApplicationController
     @friend = Friend.new
     @friend.user_id = params[:user_id]
     @friend.friend_id = params[:friend][:friend_id]
-    #friend=Friend.where(friend_id: @friend.friend_id)
-    #friend=Friend.where("friend_id = #{params[:friend][:friend_id]}")
-    #friend = Friend.find(:all, :conditions => { :friend_id => params[:friend][:friend_id] }, :limit => 1)
-    friend = Friend.find_by_friend_id params[:friend][:friend_id]
-    friend1 = Friend.find_by_user_id params[:user_id]
-    #friend=Friend.where(user_id: params[:user_id], friend_id: params[:friend][:friend_id])
-
-
-  unless friend && friend1
-
+    # @friend1 = Friend.find_by_friend_id params[:friend][:friend_id]
+    #@friend2 = Friend.find_by_user_id params[:user_id]
+    @friend1=Friend.where(user_id: params[:user_id]).where(friend_id: params[:friend][:friend_id])
+  #if @friend1.nil?
+#if @friend1.nil? && @friend2.nil?
     respond_to do |format|
       if @friend.save
         #format.html { redirect_to @friend, notice: 'Friend was successfully created.' }
@@ -49,13 +44,13 @@ class FriendsController < ApplicationController
       end
     end
   
-  else
-    respond_to do |format|
-      format.html { redirect_to :action => 'index', notice: 'Friend was added before.' }
-      format.json { render :show, status: :unprocessable_entity, location: @friend }
+  #else
+   # respond_to do |format|
+    #  format.html { redirect_to :action => 'index', notice: 'Friend was added before.' }
+     # format.json { render :show, status: :unprocessable_entity, location: @friend }
 
-    end  
-  end
+    #end  
+  #end
 end
 
   # PATCH/PUT /friends/1

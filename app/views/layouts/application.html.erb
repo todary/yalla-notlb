@@ -180,7 +180,7 @@
                             <h3>Friends</h3>
                             <ul class="footer_widget_nav">
                             <% @friends.each do |f|%>
-                                <li><a href="#"><%= f.user.name %></a></li>
+                                <li><a href="#"><%= f.user.name if f.user%></a></li>
                             <% end %>
                             </ul>
                         </div>
