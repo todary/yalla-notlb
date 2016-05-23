@@ -80,11 +80,11 @@ ActiveRecord::Schema.define(version: 20160520120218) do
   create_table "orders", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.string   "resturant",  limit: 255
-    t.boolean  "status"
+    t.boolean  "status",                 default: true
     t.integer  "user_id",    limit: 4
     t.string   "image",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
@@ -121,9 +121,9 @@ ActiveRecord::Schema.define(version: 20160520120218) do
   add_foreign_key "group_members", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "notifications", "users"
-  add_foreign_key "order_details", "orders", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "order_details", "users", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "order_details", "orders"
+  add_foreign_key "order_details", "users"
   add_foreign_key "order_members", "orders"
   add_foreign_key "order_members", "users"
-  add_foreign_key "orders", "users", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "orders", "users"
 end
