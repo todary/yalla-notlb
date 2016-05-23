@@ -32,7 +32,11 @@ class FriendsController < ApplicationController
     #friend=Friend.where("friend_id = #{params[:friend][:friend_id]}")
     #friend = Friend.find(:all, :conditions => { :friend_id => params[:friend][:friend_id] }, :limit => 1)
     friend = Friend.find_by_friend_id params[:friend][:friend_id]
-  unless friend
+    friend1 = Friend.find_by_user_id params[:user_id]
+    #friend=Friend.where(user_id: params[:user_id], friend_id: params[:friend][:friend_id])
+
+
+  unless friend && friend1
 
     respond_to do |format|
       if @friend.save
