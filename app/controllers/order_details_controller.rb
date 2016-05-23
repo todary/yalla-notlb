@@ -5,6 +5,7 @@ class OrderDetailsController < ApplicationController
   # GET /order_details.json
   def index
      @order_details = OrderDetail.where("order_id = ?", params[:order_id])
+     @orderId=Order.where("id = ?", params[:order_id])
     # @order_details = OrderDetail.all
   end
 
@@ -35,6 +36,9 @@ class OrderDetailsController < ApplicationController
     @order_detail = OrderDetail.new(order_detail_params)
     respond_to do |format|
       if @order_detail.save
+         # @order = .find(params[:id])
+         # @order.status=0
+         # @order.save
         format.html { redirect_to order_order_details_url, notice: 'Order detail was successfully created.' }
         format.json { head :no_content }
       else
