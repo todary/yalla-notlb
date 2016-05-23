@@ -24,6 +24,20 @@ class OrderMembersController < ApplicationController
   # POST /order_members
   # POST /order_members.json
   def create
+      if group =  Group.find_by(name: params[:group])
+         # group =  Group.find_by(name: params[:group])
+
+        @group_users = GroupMember.where(group_id: group.id.to_s)
+        for users in @group_users do
+          @order_member = OrderMember.new(order_member_params)
+          @order_member.user_id=users.user_id.to_s
+          @order_member.status_user=0 
+          @order_member.save          
+          # abort(users.user_id.to_s)
+        end       
+      else
+      end
+
 
       if @friend =  User.find_by(email: params[:email])
         # @friend=User.where("email = "+params[:email])
