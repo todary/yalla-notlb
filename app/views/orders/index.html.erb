@@ -30,7 +30,7 @@
         <% else %>
         <td>Finish</td>
         <% end %>
-        <td><%= link_to 'Show', order_details_path,class: 'btn btn-primary'  %></td>
+        <td><%= link_to 'Show', '/orders/'+order.id.to_s+'/order_details',class: 'btn btn-primary'  %></td>
         <% if order.status? %>
         <td><%= link_to 'Finish',
            finsh_path(order),
